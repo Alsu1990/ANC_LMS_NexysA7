@@ -1,17 +1,17 @@
 module top_tb ();
-reg clk = 0;
-reg lrclk_in = 1;
-wire s_data_out;
+
+reg s_axi_ctrl_aclk = 0;
+
 localparam CLK_PERIOD = 10;
-always #(CLK_PERIOD/2) clk = ~clk;
+
+always #(CLK_PERIOD/2) s_axi_ctrl_aclk = !s_axi_ctrl_aclk;
+
+i2s_gen i2s_gen0 (lrclk_out, sclk_out, sdata_0_in);
+
 
 i2s_receiver_0 DUT (
   .s_axi_ctrl_aclk(s_axi_ctrl_aclk),        // input wire s_axi_ctrl_aclk
   .s_axi_ctrl_aresetn(s_axi_ctrl_aresetn),  // input wire s_axi_ctrl_aresetn
-  .aud_mclk(aud_mclk),                      // input wire aud_mclk
-  .aud_mrst(aud_mrst),                      // input wire aud_mrst
-  .m_axis_aud_aclk(m_axis_aud_aclk),        // input wire m_axis_aud_aclk
-  .m_axis_aud_aresetn(m_axis_aud_aresetn),  // input wire m_axis_aud_aresetn
   .s_axi_ctrl_awvalid(s_axi_ctrl_awvalid),  // input wire s_axi_ctrl_awvalid
   .s_axi_ctrl_awready(s_axi_ctrl_awready),  // output wire s_axi_ctrl_awready
   .s_axi_ctrl_awaddr(s_axi_ctrl_awaddr),    // input wire [7 : 0] s_axi_ctrl_awaddr
@@ -32,6 +32,10 @@ i2s_receiver_0 DUT (
   .lrclk_out(lrclk_out),                    // output wire lrclk_out
   .sclk_out(sclk_out),                      // output wire sclk_out
   .sdata_0_in(sdata_0_in),                  // input wire sdata_0_in
+  .aud_mclk(aud_mclk),                      // input wire aud_mclk
+  .aud_mrst(aud_mrst),                      // input wire aud_mrst
+  .m_axis_aud_aresetn(m_axis_aud_aresetn),  // input wire m_axis_aud_aresetn
+  .m_axis_aud_aclk(m_axis_aud_aclk),        // input wire m_axis_aud_aclk
   .m_axis_aud_tdata(m_axis_aud_tdata),      // output wire [31 : 0] m_axis_aud_tdata
   .m_axis_aud_tid(m_axis_aud_tid),          // output wire [2 : 0] m_axis_aud_tid
   .m_axis_aud_tvalid(m_axis_aud_tvalid),    // output wire m_axis_aud_tvalid
@@ -39,21 +43,17 @@ i2s_receiver_0 DUT (
 
 
 
-i2s_gen i2s_gen0 (lrclk_in, clk, s_data_out);
 
 
-reg [4:0] clk_count = 0;
+// reg [4:0] clk_count = 0;
 
-always @(posedge clk ) clk_count <= clk_count + 1;
-
-
-always @(negedge clk ) if (!clk_count) lrclk_in = ! lrclk_in;
+// always @(posedge clk ) clk_count <= clk_count + 1;
+// always @(negedge clk ) if (!clk_count) lrclk_in = ! lrclk_in;
     
 
 
 initial begin
-    repeat(128) @(posedge clk);
-
+    repeat(256) @(posedge s_axi_ctrl_aclk);
     $finish;
 end
 
