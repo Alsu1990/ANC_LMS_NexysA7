@@ -158,7 +158,7 @@ input wire m_axis_aud_tready;
     .C_IS_MASTER(1),
     .C_NUM_CHANNELS(1),
     .C_DWIDTH(24),
-    .C_32BIT_LR(0),
+    .C_32BIT_LR(1),
     .C_DEPTH(128)
   ) inst (
     .s_axi_ctrl_aclk(s_axi_ctrl_aclk),

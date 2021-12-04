@@ -52,7 +52,7 @@
 
 (* X_CORE_INFO = "i2s_receiver_v1_0_5,Vivado 2021.1.1" *)
 (* CHECK_LICENSE_TYPE = "i2s_receiver_0,i2s_receiver_v1_0_5,{}" *)
-(* CORE_GENERATION_INFO = "i2s_receiver_0,i2s_receiver_v1_0_5,{x_ipProduct=Vivado 2021.1.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=i2s_receiver,x_ipVersion=1.0,x_ipCoreRevision=5,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_IS_MASTER=1,C_NUM_CHANNELS=1,C_DWIDTH=24,C_32BIT_LR=0,C_DEPTH=128}" *)
+(* CORE_GENERATION_INFO = "i2s_receiver_0,i2s_receiver_v1_0_5,{x_ipProduct=Vivado 2021.1.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=i2s_receiver,x_ipVersion=1.0,x_ipCoreRevision=5,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_IS_MASTER=1,C_NUM_CHANNELS=1,C_DWIDTH=24,C_32BIT_LR=1,C_DEPTH=128}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module i2s_receiver_0 (
   s_axi_ctrl_aclk,
@@ -159,7 +159,7 @@ input wire m_axis_aud_tready;
     .C_IS_MASTER(1),
     .C_NUM_CHANNELS(1),
     .C_DWIDTH(24),
-    .C_32BIT_LR(0),
+    .C_32BIT_LR(1),
     .C_DEPTH(128)
   ) inst (
     .s_axi_ctrl_aclk(s_axi_ctrl_aclk),
