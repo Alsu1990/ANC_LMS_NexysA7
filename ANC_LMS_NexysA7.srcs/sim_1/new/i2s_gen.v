@@ -1,11 +1,11 @@
 module i2s_gen (
     input lrclk_in,
     input sclk_in,
-    output s_data_out);
+    output reg s_data_out);
 
     /// 2 microphone registers
     reg [17:0] valid_data_18bit;
-    reg [31:0] mic_1, mic_2;
+    reg [31:0] mic_1 = 0, mic_2 = 0;
     reg [4:0] i2s_trns_cnt = 0;
 
     always @(posedge sclk_in) begin
@@ -21,6 +21,9 @@ module i2s_gen (
         end
     end
 
-assign s_data_out =  (lrclk_in)? mic_1[i2s_trns_cnt] : mic_2[i2s_trns_cnt];
+    always @(posedge sclk_in ) begin
+        s_data_out <= (lrclk_in)? mic_1[i2s_trns_cnt] : mic_2[i2s_trns_cnt];
+    end
+
 
 endmodule

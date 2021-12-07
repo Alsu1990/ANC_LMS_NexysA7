@@ -97,8 +97,9 @@ task axi_write(input [7:0] addr, input [31:0] data);
 	end
 endtask
 //axi stream memory
-reg [31:0] axi_stream_memory  [0:127];
+reg [31:0] axi_stream_memory  [0:15];
 integer axi_stream_counter = 0;
+
 
 task axis_read;
 	begin
@@ -107,14 +108,29 @@ task axis_read;
 		if (m_axis_aud_tvalid) begin
 			m_axis_aud_tready = 1;
 			axi_stream_memory[axi_stream_counter] = {8'h00 , m_axis_aud_tdata[27:4]}; //valid data
-			$display("%g Data from AXIS channel = %h, i = %d", $time, m_axis_aud_tdata, axi_stream_counter);
+			$display("%g Data from AXIS channel = %h, n = %d", $time, m_axis_aud_tdata, axi_stream_counter);
 			axi_stream_counter = axi_stream_counter + 1;
-			@(posedge clk_100M);
 		end
+		@(posedge clk_100M);
 		m_axis_aud_tready = 0;
 	end
 endtask
 
+always @(posedge clk_100M ) begin
+		if (m_axis_aud_tvalid) begin
+			m_axis_aud_tready <= 1;
+			axi_stream_memory[axi_stream_counter] <= {8'h00 , m_axis_aud_tdata[27:4]}; //valid data
+			$display("%g Data from AXIS channel = %h, n = %d", $time, m_axis_aud_tdata, axi_stream_counter);
+			axi_stream_counter = axi_stream_counter + 1;
+		end	
+	
+end
+
+
+
+
+
+integer i = 0;
 initial begin	:main_sequence
     s_axi_ctrl_aresetn = 0;
     m_axis_aud_aresetn = 0;
@@ -134,11 +150,13 @@ initial begin	:main_sequence
 	axi_write(8'h64,32'hffeeddcc);
 	axi_write(8'h08,32'h00000011);
 
-	while (axi_stream_counter < 127) begin
-		axis_read;
+	// while (axi_stream_counter < 127) begin
+	// 	axis_read;
+	// end
+	if (axi_stream_counter == 15) begin
+	    repeat(10) @(posedge clk_100M);
+    	$finish;	
 	end
-    repeat(10) @(posedge clk_100M);
-    $finish;
 end
 
 endmodule
