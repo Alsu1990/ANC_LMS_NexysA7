@@ -1,5 +1,6 @@
-module top_tb ();
+`include "i2s_gen.sv"
 
+module top_tb ();
 wire [31:0]     m_axis_aud_tdata;                                // output wire [31 : 0] m_axis_aud_tdata
 wire [2:0]      m_axis_aud_tid;                                  // output wire [2 : 0] m_axis_aud_tid
 wire            m_axis_aud_tvalid;                               // output wire m_axis_aud_tvalid
