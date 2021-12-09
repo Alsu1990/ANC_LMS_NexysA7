@@ -30,7 +30,7 @@ reg             aud_mrst;                                   // input wire aud_mr
 wire            irq;                                             // output wire irq
 wire            lrclk_out;                                       // output wire lrclk_out
 wire            sclk_out;                                        // output wire sclk_out
-wire             sdata_0_in;                                      // input wire sdata_0_in
+wire            sdata_0_in;                                      // input wire sdata_0_in
 
 localparam CLK_PERIOD = 10;
 reg clk_100M = 0;
