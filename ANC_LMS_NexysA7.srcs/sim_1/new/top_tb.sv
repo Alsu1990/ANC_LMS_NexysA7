@@ -1,6 +1,5 @@
-`include "i2s_gen.sv"
+`include "i2s_gen.v"
 `include "pwm_modulator.sv"
-// `include "interfaces.sv"
 
 module top_tb;
 /////////signals//////////

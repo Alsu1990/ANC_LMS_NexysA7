@@ -1,16 +1,26 @@
 `default_nettype none
 
 module i2s_gen (
-    input var lrclk_in,
-    input var sclk_in,
-    output var logic s_data_out);
+    input wire lrclk_in,
+    input wire sclk_in,
+    output reg s_data_out);
 
     /// 2 microphone registers
-    logic [17:0] valid_data_18bit;
-    logic [31:0] mic_1 = 0, mic_2 = 0;
-    logic [4:0] i2s_trns_cnt = 0;
+    reg [17:0] valid_data_18bit;
+    reg [31:0] mic_1 = 0, mic_2 = 0;
+    reg [4:0] i2s_trns_cnt = 0;
+  
+    // File handling
+    // Samples.txt contains 44100 samples for sin wave (400hz)
+    reg [15:0] data_line;
+    integer sin_samples;
+    
+    initial begin: file_load
+        
+        
+    end
 
-    always_ff @( posedge sclk_in ) begin : microphone
+    always @( posedge sclk_in ) begin : microphone
         i2s_trns_cnt <= i2s_trns_cnt - 1;
         s_data_out <= (!lrclk_in)? mic_1[i2s_trns_cnt] : mic_2[i2s_trns_cnt];
         if (!i2s_trns_cnt) begin
@@ -24,6 +34,7 @@ module i2s_gen (
             end
         end
     end 
+
 
 
 

@@ -1,5 +1,4 @@
 `default_nettype none
-`include "interfaces.sv"
 
 module pwm_modulator (
     // AXI_S INTERFACE
