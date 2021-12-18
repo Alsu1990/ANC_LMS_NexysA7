@@ -3,16 +3,16 @@
 module i2s_gen (
     input wire lrclk_in,
     input wire sclk_in,
-    output reg s_data_out);
+    output logic s_data_out);
 
-    /// 2 microphone registers
-    reg [17:0] valid_data_18bit;
-    reg [31:0] mic_1 = 0, mic_2 = 0;
-    reg [4:0] i2s_trns_cnt = 0;
+    /// 2 microphone logicisters
+    logic [17:0] valid_data_18bit;
+    logic [31:0] mic_1 = 0, mic_2 = 0;
+    logic [4:0] i2s_trns_cnt = 0;
   
     // File handling
     // Samples.txt contains 44100 samples for sin wave (400hz)
-    reg [15:0] data_line;
+    logic [15:0] data_line;
     integer sin_samples;
     
     initial begin: file_load

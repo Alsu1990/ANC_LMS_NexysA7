@@ -57,7 +57,7 @@ module pwm_modulator (
             next_valid <= 1;
         end else begin
             // since we working only with one microphone we will use only ZERO CHANNEL
-            if ((m_axis_aud_tid == 0) && (m_axis_aud_tvalid) ) begin
+            if ((m_axis_aud_tid == 1) && (m_axis_aud_tvalid) ) begin
                 // convert 2's complement to unsigned binary offset
                 // relevant 24 bit axis data [27:4]
                 // trunk it to 16 bit axis_aud_tdata [27:12]
