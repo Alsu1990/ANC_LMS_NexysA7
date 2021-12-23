@@ -1,14 +1,13 @@
-`default_nettype none
 
 module pwm_modulator (
     // AXI_S INTERFACE
-    input var logic             m_axis_aud_aclk,
-    input var logic             m_axis_aud_tvalid,
-    input var logic [2:0]       m_axis_aud_tid,
-    input var logic [31:0]      m_axis_aud_tdata,
-    input var logic             m_axis_aud_aresetn,
-    output var logic            m_axis_aud_tready,
-    output var logic            pwm_out);
+    input  logic            m_axis_aud_aclk,
+    input  logic            m_axis_aud_tvalid,
+    input  logic [2:0]      m_axis_aud_tid,
+    input  logic [31:0]     m_axis_aud_tdata,
+    input  logic            m_axis_aud_aresetn,
+    output logic            m_axis_aud_tready,
+    output logic            pwm_out);
 
     //////////////////////counter/////////////////////////////////////
     localparam  PWM_FRAME = 16'd2268;       // 44.1 kHz 100Mhz clock
@@ -67,5 +66,5 @@ module pwm_modulator (
         end
     end
 
-    always_ff @( posedge m_axis_aud_aclk ) pwm_out <= ( sample_out >= period_counter_reversed ) ? 1'b1 : 1'b0 ;
+    always_ff @( posedge m_axis_aud_aclk ) pwm_out <= ( sample_out >= period_counter_reversed ) ? 1'bZ : 1'b0 ; // have pull up for '1' logic on board
 endmodule
