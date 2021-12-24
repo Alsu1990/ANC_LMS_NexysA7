@@ -202,7 +202,7 @@ module top_design_tb;
 	always #(CLK_PERIOD/2) CLK100MHZ = !CLK100MHZ;
 
 	logic done;
-	top_design dut0 (.*);
+	ANC_PROJ_BD_wrapper dut0 (.*);
 	i2s_driver i2s_drv0(
 		.done,
 		.lrclk_in(JD2),
@@ -216,14 +216,14 @@ module top_design_tb;
 	    #(CLK_PERIOD*1000);
 	    CPU_RESETN = 1;
 		
-	    #(CLK_PERIOD*1000);
-		CPU_RESETN = 0;   
+	    // #(CLK_PERIOD*1000);
+		// CPU_RESETN = 0;   
 		
-	    #(CLK_PERIOD*1000);
-	    CPU_RESETN = 1;
+	    // #(CLK_PERIOD*1000);
+	    // CPU_RESETN = 1;
 
-	    #(CLK_PERIOD*1000);
-		CPU_RESETN = 0;   
+	    // #(CLK_PERIOD*1000);
+		// CPU_RESETN = 0;   
 
 	    #(CLK_PERIOD*4);
 		repeat(300) #(CLK_PERIOD);

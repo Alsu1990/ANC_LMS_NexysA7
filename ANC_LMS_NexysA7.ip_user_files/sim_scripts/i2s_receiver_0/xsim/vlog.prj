@@ -1,6 +1,0 @@
-sv xil_defaultlib  \
-"../../../../ANC_LMS_NexysA7.gen/sources_1/ip/i2s_receiver_0/sim/i2s_receiver_0.sv" \
-
-verilog xil_defaultlib "glbl.v"
-
-nosort

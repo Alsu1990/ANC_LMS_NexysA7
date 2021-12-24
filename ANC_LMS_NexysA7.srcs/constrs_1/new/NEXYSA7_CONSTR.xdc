@@ -5,7 +5,7 @@
 
 # Clock signal
 set_property -dict {PACKAGE_PIN E3 IOSTANDARD LVCMOS33} [get_ports CLK100MHZ]
-create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_ports CLK100MHZ]
+create_clock -period 10.000 -name CLK100MHZ -waveform {0.000 5.000} -add [get_ports CLK100MHZ]
 
 
 ##Switches
@@ -210,6 +210,68 @@ set_property -dict {PACKAGE_PIN A11 IOSTANDARD LVCMOS33} [get_ports AUD_PWM]
 #set_property -dict { PACKAGE_PIN M14   IOSTANDARD LVCMOS33 } [get_ports { QSPI_DQ[3] }]; #IO_L2N_T0_D03_14 Sch=qspi_dq[3]
 #set_property -dict { PACKAGE_PIN L13   IOSTANDARD LVCMOS33 } [get_ports { QSPI_CSN }]; #IO_L6P_T0_FCS_B_14 Sch=qspi_csn
 
-set_property SLEW SLOW [get_ports JD1]
-set_property PULLUP true [get_ports JD1]
+set_property SLEW SLOW [get_ports {JD1[0]}]
+set_property PULLUP true [get_ports {JD1[0]}]
 set_property PULLDOWN true [get_ports JD3]
+
+set_property MARK_DEBUG true [get_nets JD3_IBUF]
+set_property MARK_DEBUG true [get_nets JD4_OBUF]
+set_property MARK_DEBUG true [get_nets JD2_OBUF]
+set_property MARK_DEBUG true [get_nets AUD_PWM_OBUF]
+
+
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[0]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[2]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[3]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[4]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[6]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[7]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[8]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[9]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[11]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[13]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[1]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[12]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[14]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[15]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[5]}]
+set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[10]}]
+set_property MARK_DEBUG true [get_nets ANC_PROJ_BD_i/pwm_modulator_wrap_0/pwm_out_INST_0_i_1_n_0]
+connect_debug_port u_ila_0/probe1 [get_nets [list AUD_PWM_OBUF]]
+connect_debug_port u_ila_0/probe5 [get_nets [list ANC_PROJ_BD_i/pwm_modulator_wrap_0/pwm_out_INST_0_i_1_n_0]]
+
+set_property MARK_DEBUG true [get_nets ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/pwm_out_register]
+create_debug_core u_ila_0 ila
+set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
+set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0]
+set_property C_ADV_TRIGGER true [get_debug_cores u_ila_0]
+set_property C_DATA_DEPTH 16384 [get_debug_cores u_ila_0]
+set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_0]
+set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
+set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
+set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
+set_property port_width 1 [get_debug_ports u_ila_0/clk]
+connect_debug_port u_ila_0/clk [get_nets [list CLK100MHZ_IBUF_BUFG]]
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
+set_property port_width 16 [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[0]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[1]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[2]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[3]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[4]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[5]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[6]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[7]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[8]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[9]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[10]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[11]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[12]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[13]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[14]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[15]}]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
+set_property port_width 1 [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list JD2_OBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
+set_property port_width 1 [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list JD3_IBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
+set_property port_width 1 [get_debug_ports u_ila_0/probe3]
+connect_debug_port u_ila_0/probe3 [get_nets [list JD4_OBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
+set_property port_width 1 [get_debug_ports u_ila_0/probe4]
+connect_debug_port u_ila_0/probe4 [get_nets [list ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/pwm_out_register]]
+set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
+set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
+set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
+connect_debug_port dbg_hub/clk [get_nets CLK100MHZ_IBUF_BUFG]

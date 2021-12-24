@@ -1,2 +1,0 @@
-proc_sys_reset_0.vhd,vhdl,xil_defaultlib,../../../../ANC_LMS_NexysA7.gen/sources_1/ip/proc_sys_reset_0/sim/proc_sys_reset_0.vhd,
-glbl.v,Verilog,xil_defaultlib,glbl.v

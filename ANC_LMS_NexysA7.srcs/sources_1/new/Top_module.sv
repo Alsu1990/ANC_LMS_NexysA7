@@ -22,8 +22,8 @@
     // output  wire    JD2,  // ws pin {data active when low}
     // input   wire    JD3,   // mic's data out pin {need pull down due to singe mic}
     // output  wire    JD4,  // mic's clock
-`include "i2s_reciever_config.sv"
-`include "pwm_modulator.sv"
+// `include "i2s_reciever_config.sv"
+// `include "pwm_modulator.sv"
 
 
 module top_design(
