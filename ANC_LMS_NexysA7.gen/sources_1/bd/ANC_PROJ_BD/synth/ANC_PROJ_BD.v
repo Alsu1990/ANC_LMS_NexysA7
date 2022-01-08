@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1.1 (win64) Build 3286242 Wed Jul 28 13:10:47 MDT 2021
-//Date        : Fri Dec 24 14:40:54 2021
+//Date        : Sat Jan  8 14:23:34 2022
 //Host        : AR-LAP-111 running 64-bit major release  (build 9200)
 //Command     : generate_target ANC_PROJ_BD.bd
 //Design      : ANC_PROJ_BD
@@ -11,41 +11,41 @@
 
 /* MIC SEL = 0
 Microphone active on '0' */
-(* CORE_GENERATION_INFO = "ANC_PROJ_BD,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=ANC_PROJ_BD,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=8,numReposBlks=5,numNonXlnxBlks=0,numHierBlks=3,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=2,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=1,da_clkrst_cnt=2,synth_mode=Global}" *) (* HW_HANDOFF = "ANC_PROJ_BD.hwdef" *) 
+(* CORE_GENERATION_INFO = "ANC_PROJ_BD,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=ANC_PROJ_BD,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=8,numReposBlks=5,numNonXlnxBlks=0,numHierBlks=3,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=2,numPkgbdBlks=0,bdsource=USER,\"da_axi4_cnt\"=1,\"da_clkrst_cnt\"=2,synth_mode=Global}" *) (* HW_HANDOFF = "ANC_PROJ_BD.hwdef" *) 
 module ANC_PROJ_BD
-   (AUD_PWM,
-    CLK100MHZ,
+   (CLK100MHZ,
     CPU_RESETN,
     JD1,
+    JD10,
     JD2,
     JD3,
     JD4,
     LED0);
-  output AUD_PWM;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.CLK100MHZ CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.CLK100MHZ, CLK_DOMAIN 100MHZ_INPUT_CLK, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input CLK100MHZ;
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.CPU_RESETN RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.CPU_RESETN, INSERT_VIP 0, POLARITY ACTIVE_LOW" *) input CPU_RESETN;
   output [0:0]JD1;
+  output JD10;
   output JD2;
   (* X_INTERFACE_INFO = "xilinx.com:signal:data:1.0 DATA.JD3 DATA" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME DATA.JD3, LAYERED_METADATA undef" *) input JD3;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.JD4 CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.JD4, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) output JD4;
   output LED0;
 
   wire CLK100MHZ;
-  wire JD3_1;
-  wire [31:0]i2s_receiver_0_m_axis_aud_TDATA;
-  wire [2:0]i2s_receiver_0_m_axis_aud_TID;
-  wire i2s_receiver_0_m_axis_aud_TREADY;
-  wire i2s_receiver_0_m_axis_aud_TVALID;
-  wire i2s_reciever_JD2;
-  wire i2s_reciever_JD4;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire JD3_1;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire [31:0]i2s_receiver_0_m_axis_aud_TDATA;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire [2:0]i2s_receiver_0_m_axis_aud_TID;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire i2s_receiver_0_m_axis_aud_TREADY;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire i2s_receiver_0_m_axis_aud_TVALID;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire i2s_reciever_JD2;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire i2s_reciever_JD4;
   wire [0:0]proc_sys_reset_0_peripheral_aresetn;
   wire [0:0]proc_sys_reset_0_peripheral_reset;
-  wire pwm_modulator_wrap_0_pwm_out;
+  (* DEBUG = "true" *) (* MARK_DEBUG *) wire pwm_modulator_wrap_0_pwm_out;
   wire reset_1;
   wire [0:0]xlconstant_0_dout;
 
-  assign AUD_PWM = pwm_modulator_wrap_0_pwm_out;
   assign JD1[0] = xlconstant_0_dout;
+  assign JD10 = pwm_modulator_wrap_0_pwm_out;
   assign JD2 = i2s_reciever_JD2;
   assign JD3_1 = JD3;
   assign JD4 = i2s_reciever_JD4;
@@ -294,13 +294,13 @@ module i2s_reciever_imp_1HBR798
   input m_axis_aud_tready;
   output m_axis_aud_tvalid;
 
-  wire JD3_1;
-  wire i2s_receiver_0_lrclk_out;
-  wire [31:0]i2s_receiver_0_m_axis_aud_TDATA;
-  wire [2:0]i2s_receiver_0_m_axis_aud_TID;
-  wire i2s_receiver_0_m_axis_aud_TREADY;
-  wire i2s_receiver_0_m_axis_aud_TVALID;
-  wire i2s_receiver_0_sclk_out;
+  (* DEBUG = "true" *) wire JD3_1;
+  (* DEBUG = "true" *) wire i2s_receiver_0_lrclk_out;
+  (* DEBUG = "true" *) wire [31:0]i2s_receiver_0_m_axis_aud_TDATA;
+  (* DEBUG = "true" *) wire [2:0]i2s_receiver_0_m_axis_aud_TID;
+  (* DEBUG = "true" *) wire i2s_receiver_0_m_axis_aud_TREADY;
+  (* DEBUG = "true" *) wire i2s_receiver_0_m_axis_aud_TVALID;
+  (* DEBUG = "true" *) wire i2s_receiver_0_sclk_out;
   wire [7:0]i2s_reciever_config_0_axi_periph_M00_AXI_ARADDR;
   wire i2s_reciever_config_0_axi_periph_M00_AXI_ARREADY;
   wire i2s_reciever_config_0_axi_periph_M00_AXI_ARVALID;

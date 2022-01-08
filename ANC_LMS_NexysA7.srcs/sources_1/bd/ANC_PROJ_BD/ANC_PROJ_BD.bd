@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xFD4C24694C186EF4",
+      "boundary_crc": "0x5DD40D8645B52B6C",
       "device": "xc7a100tcsg324-1",
       "gen_directory": "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD",
       "name": "ANC_PROJ_BD",
@@ -103,7 +103,7 @@
           }
         }
       },
-      "AUD_PWM": {
+      "JD10": {
         "direction": "O"
       },
       "JD1": {
@@ -574,7 +574,12 @@
             "interface_ports": [
               "m_axis_aud",
               "i2s_receiver_0/m_axis_aud"
-            ]
+            ],
+            "hdl_attributes": {
+              "DEBUG": {
+                "value": "true"
+              }
+            }
           },
           "i2s_reciever_config_0_axi_periph_M00_AXI": {
             "interface_ports": [
@@ -594,19 +599,34 @@
             "ports": [
               "JD3",
               "i2s_receiver_0/sdata_0_in"
-            ]
+            ],
+            "hdl_attributes": {
+              "DEBUG": {
+                "value": "true"
+              }
+            }
           },
           "i2s_receiver_0_lrclk_out": {
             "ports": [
               "i2s_receiver_0/lrclk_out",
               "JD2"
-            ]
+            ],
+            "hdl_attributes": {
+              "DEBUG": {
+                "value": "true"
+              }
+            }
           },
           "i2s_receiver_0_sclk_out": {
             "ports": [
               "i2s_receiver_0/sclk_out",
               "JD4"
-            ]
+            ],
+            "hdl_attributes": {
+              "DEBUG": {
+                "value": "true"
+              }
+            }
           },
           "proc_sys_reset_0_peripheral_aresetn": {
             "ports": [
@@ -759,7 +779,15 @@
         "interface_ports": [
           "i2s_reciever/m_axis_aud",
           "pwm_modulator_wrap_0/m_axis_aud"
-        ]
+        ],
+        "hdl_attributes": {
+          "DEBUG": {
+            "value": "true"
+          },
+          "MARK_DEBUG": {
+            "value": "true"
+          }
+        }
       }
     },
     "nets": {
@@ -775,19 +803,43 @@
         "ports": [
           "JD3",
           "i2s_reciever/JD3"
-        ]
+        ],
+        "hdl_attributes": {
+          "DEBUG": {
+            "value": "true"
+          },
+          "MARK_DEBUG": {
+            "value": "true"
+          }
+        }
       },
       "i2s_reciever_JD2": {
         "ports": [
           "i2s_reciever/JD2",
           "JD2"
-        ]
+        ],
+        "hdl_attributes": {
+          "DEBUG": {
+            "value": "true"
+          },
+          "MARK_DEBUG": {
+            "value": "true"
+          }
+        }
       },
       "i2s_reciever_JD4": {
         "ports": [
           "i2s_reciever/JD4",
           "JD4"
-        ]
+        ],
+        "hdl_attributes": {
+          "DEBUG": {
+            "value": "true"
+          },
+          "MARK_DEBUG": {
+            "value": "true"
+          }
+        }
       },
       "proc_sys_reset_0_peripheral_aresetn": {
         "ports": [
@@ -805,8 +857,16 @@
       "pwm_modulator_wrap_0_pwm_out": {
         "ports": [
           "pwm_modulator_wrap_0/pwm_out",
-          "AUD_PWM"
-        ]
+          "JD10"
+        ],
+        "hdl_attributes": {
+          "DEBUG": {
+            "value": "true"
+          },
+          "MARK_DEBUG": {
+            "value": "true"
+          }
+        }
       },
       "reset_1": {
         "ports": [

@@ -66,16 +66,17 @@ module pwm_modulator (
         end
     end
 
-    logic pwm_out_register;
-    always_ff @( posedge m_axis_aud_aclk ) pwm_out_register <= ( sample_out >= period_counter_reversed ) ? 1'b1 : 1'b0 ;
+    always_ff @( posedge m_axis_aud_aclk ) pwm_out <= ( sample_out >= period_counter_reversed ) ? 1'b1 : 1'b0 ;
+    // logic pwm_out_register;
+    // always_ff @( posedge m_axis_aud_aclk ) pwm_out_register <= ( sample_out >= period_counter_reversed ) ? 1'b1 : 1'b0 ;
  
- OBUFT #(
-    .DRIVE(12),
-    .IOSTANDARD("DEFAULT"),
-    .SLEW("SLOW"))
-    OBUFT_inst (
-        .O(pwm_out),     // Buffer output (connect directly to top-level port)
-        .I(pwm_out_register),     // Buffer input
-        .T(pwm_out_register));      // 3-state enable input
+//  OBUFT #(
+//     .DRIVE(12),
+//     .IOSTANDARD("DEFAULT"),
+//     .SLEW("SLOW"))
+//     OBUFT_inst (
+//         .O(pwm_out),     // Buffer output (connect directly to top-level port)
+//         .I(pwm_out_register),     // Buffer input
+//         .T(pwm_out_register));      // 3-state enable input
     
 endmodule

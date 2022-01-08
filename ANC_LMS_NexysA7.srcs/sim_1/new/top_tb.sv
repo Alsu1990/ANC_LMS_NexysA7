@@ -196,7 +196,7 @@ module top_design_tb;
 	logic   	JD3;   // mic's data out pin {need pull down due to singe mic}
 	logic   	JD4;  // mic's clock
 	logic    	LED0;
-	logic   	AUD_PWM;
+	logic   	JD10;
 
 	localparam CLK_PERIOD = 10;
 	always #(CLK_PERIOD/2) CLK100MHZ = !CLK100MHZ;

@@ -255,7 +255,6 @@ proc create_root_design { parentCell } {
   # Create interface ports
 
   # Create ports
-  set AUD_PWM [ create_bd_port -dir O AUD_PWM ]
   set CLK100MHZ [ create_bd_port -dir I -type clk -freq_hz 100000000 CLK100MHZ ]
   set_property -dict [ list \
    CONFIG.CLK_DOMAIN {100MHZ_INPUT_CLK} \
@@ -269,6 +268,7 @@ proc create_root_design { parentCell } {
   set JD2 [ create_bd_port -dir O JD2 ]
   set JD3 [ create_bd_port -dir I -type data JD3 ]
   set JD4 [ create_bd_port -dir O -type clk JD4 ]
+  set JD10 [ create_bd_port -dir O JD10 ]
   set LED0 [ create_bd_port -dir O LED0 ]
 
   # Create instance: i2s_reciever
@@ -300,15 +300,20 @@ proc create_root_design { parentCell } {
 
   # Create interface connections
   connect_bd_intf_net -intf_net i2s_receiver_0_m_axis_aud [get_bd_intf_pins i2s_reciever/m_axis_aud] [get_bd_intf_pins pwm_modulator_wrap_0/m_axis_aud]
+  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets i2s_receiver_0_m_axis_aud]
 
   # Create port connections
   connect_bd_net -net CLK100MHZ [get_bd_ports CLK100MHZ] [get_bd_pins i2s_reciever/CLK100MHZ] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aclk]
   connect_bd_net -net JD3_1 [get_bd_ports JD3] [get_bd_pins i2s_reciever/JD3]
+  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets JD3_1]
   connect_bd_net -net i2s_reciever_JD2 [get_bd_ports JD2] [get_bd_pins i2s_reciever/JD2]
+  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets i2s_reciever_JD2]
   connect_bd_net -net i2s_reciever_JD4 [get_bd_ports JD4] [get_bd_pins i2s_reciever/JD4]
+  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets i2s_reciever_JD4]
   connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins i2s_reciever/S00_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aresetn]
   connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins i2s_reciever/aud_mrst] [get_bd_pins proc_sys_reset_0/peripheral_reset]
-  connect_bd_net -net pwm_modulator_wrap_0_pwm_out [get_bd_ports AUD_PWM] [get_bd_pins pwm_modulator_wrap_0/pwm_out]
+  connect_bd_net -net pwm_modulator_wrap_0_pwm_out [get_bd_ports JD10] [get_bd_pins pwm_modulator_wrap_0/pwm_out]
+  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets pwm_modulator_wrap_0_pwm_out]
   connect_bd_net -net reset_1 [get_bd_ports CPU_RESETN] [get_bd_ports LED0] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net xlconstant_0_dout [get_bd_ports JD1] [get_bd_pins xlconstant_0/dout]
 

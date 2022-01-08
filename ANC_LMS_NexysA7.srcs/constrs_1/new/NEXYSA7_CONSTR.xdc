@@ -118,7 +118,7 @@ set_property -dict {PACKAGE_PIN G3 IOSTANDARD LVCMOS33} [get_ports JD4]
 # set_property -dict { PACKAGE_PIN H2    IOSTANDARD LVCMOS33 } [get_ports { JD[7] }]; #IO_L15P_T2_DQS_35 Sch=jd[7]
 # set_property -dict { PACKAGE_PIN G4    IOSTANDARD LVCMOS33 } [get_ports { JD[8] }]; #IO_L20P_T3_35 Sch=jd[8]
 # set_property -dict { PACKAGE_PIN G2    IOSTANDARD LVCMOS33 } [get_ports { JD[9] }]; #IO_L15N_T2_DQS_35 Sch=jd[9]
-# set_property -dict { PACKAGE_PIN F3    IOSTANDARD LVCMOS33 } [get_ports { JD[10] }]; #IO_L13N_T2_MRCC_35 Sch=jd[10]
+set_property -dict {PACKAGE_PIN F3 IOSTANDARD LVCMOS33} [get_ports JD10]
 
 ##Pmod Header JXADC
 #set_property -dict { PACKAGE_PIN A14   IOSTANDARD LVCMOS33 } [get_ports { XA_N[1] }]; #IO_L9N_T1_DQS_AD3N_15 Sch=xa_n[1]
@@ -176,7 +176,7 @@ set_property -dict {PACKAGE_PIN G3 IOSTANDARD LVCMOS33} [get_ports JD4]
 # set_property -dict { PACKAGE_PIN F5    IOSTANDARD LVCMOS33 } [get_ports { M_LRSEL }]; #IO_0_35 Sch=m_lrsel
 
 ##PWM Audio Amplifier
-set_property -dict {PACKAGE_PIN A11 IOSTANDARD LVCMOS33} [get_ports AUD_PWM]
+# set_property -dict {PACKAGE_PIN A11 IOSTANDARD LVCMOS33} [get_ports AUD_PWM]
 #set_property -dict { PACKAGE_PIN D12   IOSTANDARD LVCMOS33 } [get_ports { AUD_SD }]; #IO_L6P_T0_15 Sch=aud_sd
 
 ##USB-RS232 Interface
@@ -214,38 +214,17 @@ set_property SLEW SLOW [get_ports {JD1[0]}]
 set_property PULLUP true [get_ports {JD1[0]}]
 set_property PULLDOWN true [get_ports JD3]
 
-set_property MARK_DEBUG true [get_nets JD3_IBUF]
+set_property MARK_DEBUG true [get_nets JD10_OBUF]
+set_property MARK_DEBUG true [get_nets LED0_OBUF]
+
 set_property MARK_DEBUG true [get_nets JD4_OBUF]
 set_property MARK_DEBUG true [get_nets JD2_OBUF]
-set_property MARK_DEBUG true [get_nets AUD_PWM_OBUF]
-
-
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[0]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[2]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[3]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[4]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[6]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[7]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[8]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[9]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[11]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[13]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[1]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[12]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[14]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[15]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[5]}]
-set_property MARK_DEBUG true [get_nets {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[10]}]
-set_property MARK_DEBUG true [get_nets ANC_PROJ_BD_i/pwm_modulator_wrap_0/pwm_out_INST_0_i_1_n_0]
-connect_debug_port u_ila_0/probe1 [get_nets [list AUD_PWM_OBUF]]
-connect_debug_port u_ila_0/probe5 [get_nets [list ANC_PROJ_BD_i/pwm_modulator_wrap_0/pwm_out_INST_0_i_1_n_0]]
-
-set_property MARK_DEBUG true [get_nets ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/pwm_out_register]
+set_property MARK_DEBUG true [get_nets JD3_IBUF]
 create_debug_core u_ila_0 ila
 set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
 set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0]
 set_property C_ADV_TRIGGER true [get_debug_cores u_ila_0]
-set_property C_DATA_DEPTH 16384 [get_debug_cores u_ila_0]
+set_property C_DATA_DEPTH 65536 [get_debug_cores u_ila_0]
 set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_0]
 set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
 set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
@@ -253,24 +232,56 @@ set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
 set_property port_width 1 [get_debug_ports u_ila_0/clk]
 connect_debug_port u_ila_0/clk [get_nets [list CLK100MHZ_IBUF_BUFG]]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
-set_property port_width 16 [get_debug_ports u_ila_0/probe0]
-connect_debug_port u_ila_0/probe0 [get_nets [list {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[0]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[1]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[2]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[3]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[4]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[5]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[6]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[7]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[8]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[9]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[10]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[11]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[12]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[13]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[14]} {ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/sample_out[15]}]]
+set_property port_width 32 [get_debug_ports u_ila_0/probe0]
+connect_debug_port u_ila_0/probe0 [get_nets [list {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[0]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[1]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[2]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[3]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[4]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[5]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[6]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[7]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[8]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[9]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[10]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[11]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[12]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[13]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[14]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[15]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[16]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[17]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[18]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[19]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[20]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[21]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[22]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[23]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[24]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[25]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[26]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[27]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[28]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[29]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[30]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[31]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
-set_property port_width 1 [get_debug_ports u_ila_0/probe1]
-connect_debug_port u_ila_0/probe1 [get_nets [list JD2_OBUF]]
+set_property port_width 3 [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TID[0]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TID[1]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TID[2]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
 set_property port_width 1 [get_debug_ports u_ila_0/probe2]
-connect_debug_port u_ila_0/probe2 [get_nets [list JD3_IBUF]]
+connect_debug_port u_ila_0/probe2 [get_nets [list ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TREADY]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
 set_property port_width 1 [get_debug_ports u_ila_0/probe3]
-connect_debug_port u_ila_0/probe3 [get_nets [list JD4_OBUF]]
+connect_debug_port u_ila_0/probe3 [get_nets [list ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TVALID]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
 set_property port_width 1 [get_debug_ports u_ila_0/probe4]
-connect_debug_port u_ila_0/probe4 [get_nets [list ANC_PROJ_BD_i/pwm_modulator_wrap_0/inst/pwm_modulator0/pwm_out_register]]
+connect_debug_port u_ila_0/probe4 [get_nets [list ANC_PROJ_BD_i/i2s_reciever_JD2]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe5]
+set_property port_width 1 [get_debug_ports u_ila_0/probe5]
+connect_debug_port u_ila_0/probe5 [get_nets [list ANC_PROJ_BD_i/i2s_reciever_JD4]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
+set_property port_width 1 [get_debug_ports u_ila_0/probe6]
+connect_debug_port u_ila_0/probe6 [get_nets [list JD2_OBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
+set_property port_width 1 [get_debug_ports u_ila_0/probe7]
+connect_debug_port u_ila_0/probe7 [get_nets [list ANC_PROJ_BD_i/JD3_1]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe8]
+set_property port_width 1 [get_debug_ports u_ila_0/probe8]
+connect_debug_port u_ila_0/probe8 [get_nets [list JD3_IBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe9]
+set_property port_width 1 [get_debug_ports u_ila_0/probe9]
+connect_debug_port u_ila_0/probe9 [get_nets [list JD4_OBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe10]
+set_property port_width 1 [get_debug_ports u_ila_0/probe10]
+connect_debug_port u_ila_0/probe10 [get_nets [list JD10_OBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe11]
+set_property port_width 1 [get_debug_ports u_ila_0/probe11]
+connect_debug_port u_ila_0/probe11 [get_nets [list LED0_OBUF]]
+create_debug_port u_ila_0 probe
+set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe12]
+set_property port_width 1 [get_debug_ports u_ila_0/probe12]
+connect_debug_port u_ila_0/probe12 [get_nets [list ANC_PROJ_BD_i/pwm_modulator_wrap_0_pwm_out]]
 set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
 set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
 set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
