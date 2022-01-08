@@ -1,4 +1,11 @@
 vhdl xil_defaultlib  \
 "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_proc_sys_reset_0_0/sim/ANC_PROJ_BD_proc_sys_reset_0_0.vhd" \
 
+vhdl mii_to_rmii_v2_0_21  \
+"../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/1fa2/hdl/mii_to_rmii_v2_0_vh_rfs.vhd" \
+
+vhdl xil_defaultlib  \
+"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_mii_to_rmii_0_0/sim/ANC_PROJ_BD_mii_to_rmii_0_0.vhd" \
+"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_axi_ethernetlite_0_0/sim/ANC_PROJ_BD_axi_ethernetlite_0_0.vhd" \
+
 nosort

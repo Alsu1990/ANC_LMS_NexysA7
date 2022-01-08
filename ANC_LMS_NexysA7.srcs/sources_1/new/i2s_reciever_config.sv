@@ -24,7 +24,8 @@ module i2s_reciever_config (
 		logic [31:0] data;
 	} axi_pkt;
 
-	axi_pkt [0:7] axi_cmd ={{8'h20, 32'h0000000f},
+	axi_pkt [0:7] axi_cmd ={{8'h20, 32'h0000001f},
+							// {8'h20, 32'h0000000f},
 							{8'h50, 32'h87654321},
 							{8'h54, 32'h0fedcba9},
 							{8'h58, 32'h33221100},

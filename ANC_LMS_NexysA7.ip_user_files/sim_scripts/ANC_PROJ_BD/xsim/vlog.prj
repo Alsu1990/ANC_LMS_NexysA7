@@ -1,12 +1,12 @@
-verilog xil_defaultlib  \
-"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_i2s_reciever_config_0_0/sim/ANC_PROJ_BD_i2s_reciever_config_0_0.v" \
-
-sv xil_defaultlib  \
+sv xil_defaultlib --include "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/6dcf" \
 "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_i2s_receiver_0_0/sim/ANC_PROJ_BD_i2s_receiver_0_0.sv" \
 
-verilog xil_defaultlib  \
-"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_pwm_modulator_wrap_0_0/sim/ANC_PROJ_BD_pwm_modulator_wrap_0_0.v" \
+verilog xil_defaultlib --include "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/6dcf" \
+"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_i2s_reciever_config_0_0/sim/ANC_PROJ_BD_i2s_reciever_config_0_0.v" \
 "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_xlconstant_0_0/sim/ANC_PROJ_BD_xlconstant_0_0.v" \
+"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_pwm_modulator_wrap_0_0/sim/ANC_PROJ_BD_pwm_modulator_wrap_0_0.v" \
+"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_clk_wiz_0_0/ANC_PROJ_BD_clk_wiz_0_0_clk_wiz.v" \
+"../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_clk_wiz_0_0/ANC_PROJ_BD_clk_wiz_0_0.v" \
 "../../../bd/ANC_PROJ_BD/sim/ANC_PROJ_BD.v" \
 
 verilog xil_defaultlib "glbl.v"

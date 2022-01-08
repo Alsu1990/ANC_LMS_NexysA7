@@ -7,7 +7,7 @@ class i2s_transaction;  // i2s transaction class
     function new(bit [15:0] valid_data); 
         this.i2s_packet = {valid_data,16'h00ZZ};
         this.n = 31;
-        $display("T = %0t, I2S packet = 0b%b", $time, this.i2s_packet);
+        $display("T = %0t, I2S packet = %h", $time, this.i2s_packet[31:16]);
     endfunction 
 
     function logic getbit();

@@ -187,6 +187,12 @@ timeunit 1ns/1ps;
 
 	// endmodule
 // 
+
+function automatic display_axi_traffic( input logic data_valid, input logic [31:0] data);
+	begin
+		$display("Time=%0t, AXI data =%h ", $time, data);
+	end
+endfunction
 module top_design_tb;
 
 	bit     	CLK100MHZ = 0;
@@ -197,11 +203,19 @@ module top_design_tb;
 	logic   	JD4;  // mic's clock
 	logic    	LED0;
 	logic   	AUD_PWM;
+	logic 		eth_mdio_mdc_mdc;
+	wire 		eth_mdio_mdc_mdio_io;
+	logic 		eth_rmii_crs_dv;
+	logic 		eth_rmii_rx_er;
+	logic 		eth_rmii_rxd;
+	logic 		eth_rmii_tx_en;
+	logic 		eth_rmii_txd;
 
 	localparam CLK_PERIOD = 10;
 	always #(CLK_PERIOD/2) CLK100MHZ = !CLK100MHZ;
 
 	logic done;
+	int fd;
 	ANC_PROJ_BD_wrapper dut0 (.*);
 	i2s_driver i2s_drv0(
 		.done,
@@ -210,23 +224,31 @@ module top_design_tb;
 		.s_data_out(JD3)
 		);
 	// quick sanity check
-	integer i = 0;
+
+
+
 	initial begin	:main_sequence
 	    CPU_RESETN = 0;   
 	    #(CLK_PERIOD*1000);
+		fd = $fopen ("C:/Xilinx/Projects/ANC_LMS_NexysA7/simulation_data.txt", "w");
 	    CPU_RESETN = 1;
-		
-	    // #(CLK_PERIOD*1000);
-		// CPU_RESETN = 0;   
-		
-	    // #(CLK_PERIOD*1000);
-	    // CPU_RESETN = 1;
-
-	    // #(CLK_PERIOD*1000);
-		// CPU_RESETN = 0;   
 
 	    #(CLK_PERIOD*4);
-		repeat(300) #(CLK_PERIOD);
+		repeat(10) begin
+			@(posedge dut0.ANC_PROJ_BD_i.i2s_reciever.i2s_receiver_0_m_axis_aud_TVALID);
+			if (dut0.ANC_PROJ_BD_i.i2s_reciever.i2s_receiver_0_m_axis_aud_TID == 3'b001) begin
+				// display_axi_traffic(
+				// 	dut0.ANC_PROJ_BD_i.i2s_reciever.i2s_receiver_0_m_axis_aud_TVALID,
+				// 	dut0.ANC_PROJ_BD_i.i2s_reciever.i2s_receiver_0_m_axis_aud_TDATA
+				// );
+				$fwrite(fd, "%h" ,dut0.ANC_PROJ_BD_i.i2s_reciever.i2s_receiver_0_m_axis_aud_TDATA[27:12]);
+				$display("T = %0t, AXIS data = %h",$time ,dut0.ANC_PROJ_BD_i.i2s_reciever.i2s_receiver_0_m_axis_aud_TDATA[27:12]);
+				$fwrite(fd, "\n");
+			end
+		end
+		#(CLK_PERIOD);
+		$fclose(fd);
+		// $display("Time=%0t, axis_data =%b ", $time,dut0.ANC_PROJ_BD_i.i2s_receiver_0_m_axis_aud_TDATA);
 		$display("Simulation finished at %0t", $time);
 		$finish;
 		// @(done);

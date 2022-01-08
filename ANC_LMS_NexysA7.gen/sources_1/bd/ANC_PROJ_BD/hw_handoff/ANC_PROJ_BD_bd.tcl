@@ -253,6 +253,10 @@ proc create_root_design { parentCell } {
 
 
   # Create interface ports
+  set eth_mdio_mdc [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:mdio_rtl:1.0 eth_mdio_mdc ]
+
+  set eth_rmii [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:rmii_rtl:1.0 eth_rmii ]
+
 
   # Create ports
   set AUD_PWM [ create_bd_port -dir O AUD_PWM ]
@@ -271,8 +275,39 @@ proc create_root_design { parentCell } {
   set JD4 [ create_bd_port -dir O -type clk JD4 ]
   set LED0 [ create_bd_port -dir O LED0 ]
 
+  # Create instance: axi_ethernetlite_0, and set properties
+  set axi_ethernetlite_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_ethernetlite:3.0 axi_ethernetlite_0 ]
+  set_property -dict [ list \
+   CONFIG.MDIO_BOARD_INTERFACE {eth_mdio_mdc} \
+   CONFIG.USE_BOARD_FLOW {true} \
+ ] $axi_ethernetlite_0
+
+  # Create instance: clk_wiz_0, and set properties
+  set clk_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_0 ]
+  set_property -dict [ list \
+   CONFIG.CLKOUT2_JITTER {151.636} \
+   CONFIG.CLKOUT2_PHASE_ERROR {98.575} \
+   CONFIG.CLKOUT2_REQUESTED_OUT_FREQ {50} \
+   CONFIG.CLKOUT2_USED {true} \
+   CONFIG.CLK_IN1_BOARD_INTERFACE {Custom} \
+   CONFIG.CLK_OUT1_PORT {clk_out100} \
+   CONFIG.CLK_OUT2_PORT {clk_out50} \
+   CONFIG.MMCM_CLKOUT1_DIVIDE {20} \
+   CONFIG.NUM_OUT_CLKS {2} \
+   CONFIG.RESET_PORT {resetn} \
+   CONFIG.RESET_TYPE {ACTIVE_LOW} \
+   CONFIG.USE_BOARD_FLOW {true} \
+ ] $clk_wiz_0
+
   # Create instance: i2s_reciever
   create_hier_cell_i2s_reciever [current_bd_instance .] i2s_reciever
+
+  # Create instance: mii_to_rmii_0, and set properties
+  set mii_to_rmii_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:mii_to_rmii:2.0 mii_to_rmii_0 ]
+  set_property -dict [ list \
+   CONFIG.C_INCLUDE_BUF {1} \
+   CONFIG.RMII_BOARD_INTERFACE {eth_rmii} \
+ ] $mii_to_rmii_0
 
   # Create instance: proc_sys_reset_0, and set properties
   set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0 ]
@@ -299,17 +334,23 @@ proc create_root_design { parentCell } {
  ] $xlconstant_0
 
   # Create interface connections
+  connect_bd_intf_net -intf_net axi_ethernetlite_0_MDIO [get_bd_intf_ports eth_mdio_mdc] [get_bd_intf_pins axi_ethernetlite_0/MDIO]
+  connect_bd_intf_net -intf_net axi_ethernetlite_0_MII [get_bd_intf_pins axi_ethernetlite_0/MII] [get_bd_intf_pins mii_to_rmii_0/MII]
   connect_bd_intf_net -intf_net i2s_receiver_0_m_axis_aud [get_bd_intf_pins i2s_reciever/m_axis_aud] [get_bd_intf_pins pwm_modulator_wrap_0/m_axis_aud]
+  connect_bd_intf_net -intf_net mii_to_rmii_0_RMII_PHY_M [get_bd_intf_ports eth_rmii] [get_bd_intf_pins mii_to_rmii_0/RMII_PHY_M]
 
   # Create port connections
-  connect_bd_net -net CLK100MHZ [get_bd_ports CLK100MHZ] [get_bd_pins i2s_reciever/CLK100MHZ] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aclk]
+  connect_bd_net -net CLK100MHZ_1 [get_bd_ports CLK100MHZ] [get_bd_pins clk_wiz_0/clk_in1] [get_bd_pins proc_sys_reset_0/slowest_sync_clk]
+  connect_bd_net -net CPU_RESETN_1 [get_bd_ports CPU_RESETN] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net JD3_1 [get_bd_ports JD3] [get_bd_pins i2s_reciever/JD3]
+  connect_bd_net -net clk_wiz_0_clk_out50 [get_bd_pins clk_wiz_0/clk_out50] [get_bd_pins mii_to_rmii_0/ref_clk]
+  connect_bd_net -net clk_wiz_0_clk_out100 [get_bd_pins axi_ethernetlite_0/s_axi_aclk] [get_bd_pins clk_wiz_0/clk_out100] [get_bd_pins i2s_reciever/CLK100MHZ] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aclk]
+  connect_bd_net -net clk_wiz_0_locked [get_bd_ports LED0] [get_bd_pins clk_wiz_0/locked]
   connect_bd_net -net i2s_reciever_JD2 [get_bd_ports JD2] [get_bd_pins i2s_reciever/JD2]
   connect_bd_net -net i2s_reciever_JD4 [get_bd_ports JD4] [get_bd_pins i2s_reciever/JD4]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins i2s_reciever/S00_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aresetn]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins axi_ethernetlite_0/s_axi_aresetn] [get_bd_pins clk_wiz_0/resetn] [get_bd_pins i2s_reciever/S00_ARESETN] [get_bd_pins mii_to_rmii_0/rst_n] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aresetn]
   connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins i2s_reciever/aud_mrst] [get_bd_pins proc_sys_reset_0/peripheral_reset]
   connect_bd_net -net pwm_modulator_wrap_0_pwm_out [get_bd_ports AUD_PWM] [get_bd_pins pwm_modulator_wrap_0/pwm_out]
-  connect_bd_net -net reset_1 [get_bd_ports CPU_RESETN] [get_bd_ports LED0] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net xlconstant_0_dout [get_bd_ports JD1] [get_bd_pins xlconstant_0/dout]
 
   # Create address segments

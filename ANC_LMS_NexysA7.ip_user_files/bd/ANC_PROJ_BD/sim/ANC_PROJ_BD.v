@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1.1 (win64) Build 3286242 Wed Jul 28 13:10:47 MDT 2021
-//Date        : Fri Dec 24 14:40:54 2021
+//Date        : Fri Jan  7 20:54:27 2022
 //Host        : AR-LAP-111 running 64-bit major release  (build 9200)
 //Command     : generate_target ANC_PROJ_BD.bd
 //Design      : ANC_PROJ_BD
@@ -11,7 +11,7 @@
 
 /* MIC SEL = 0
 Microphone active on '0' */
-(* CORE_GENERATION_INFO = "ANC_PROJ_BD,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=ANC_PROJ_BD,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=8,numReposBlks=5,numNonXlnxBlks=0,numHierBlks=3,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=2,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=1,da_clkrst_cnt=2,synth_mode=Global}" *) (* HW_HANDOFF = "ANC_PROJ_BD.hwdef" *) 
+(* CORE_GENERATION_INFO = "ANC_PROJ_BD,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=ANC_PROJ_BD,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=11,numReposBlks=8,numNonXlnxBlks=0,numHierBlks=3,maxHierDepth=1,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=2,numPkgbdBlks=0,bdsource=USER,\"\"\"\"\"da_axi4_cnt\"\"\"\"\"=1,\"\"\"\"\"da_clkrst_cnt\"\"\"\"\"=2,\"da_board_cnt\"=3,\"da_clkrst_cnt\"=2,synth_mode=Global}" *) (* HW_HANDOFF = "ANC_PROJ_BD.hwdef" *) 
 module ANC_PROJ_BD
    (AUD_PWM,
     CLK100MHZ,
@@ -20,7 +20,16 @@ module ANC_PROJ_BD
     JD2,
     JD3,
     JD4,
-    LED0);
+    LED0,
+    eth_mdio_mdc_mdc,
+    eth_mdio_mdc_mdio_i,
+    eth_mdio_mdc_mdio_o,
+    eth_mdio_mdc_mdio_t,
+    eth_rmii_crs_dv,
+    eth_rmii_rx_er,
+    eth_rmii_rxd,
+    eth_rmii_tx_en,
+    eth_rmii_txd);
   output AUD_PWM;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.CLK100MHZ CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.CLK100MHZ, CLK_DOMAIN 100MHZ_INPUT_CLK, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input CLK100MHZ;
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.CPU_RESETN RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.CPU_RESETN, INSERT_VIP 0, POLARITY ACTIVE_LOW" *) input CPU_RESETN;
@@ -29,30 +38,101 @@ module ANC_PROJ_BD
   (* X_INTERFACE_INFO = "xilinx.com:signal:data:1.0 DATA.JD3 DATA" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME DATA.JD3, LAYERED_METADATA undef" *) input JD3;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.JD4 CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.JD4, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) output JD4;
   output LED0;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:mdio:1.0 eth_mdio_mdc MDC" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME eth_mdio_mdc, CAN_DEBUG false" *) output eth_mdio_mdc_mdc;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:mdio:1.0 eth_mdio_mdc MDIO_I" *) input eth_mdio_mdc_mdio_i;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:mdio:1.0 eth_mdio_mdc MDIO_O" *) output eth_mdio_mdc_mdio_o;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:mdio:1.0 eth_mdio_mdc MDIO_T" *) output eth_mdio_mdc_mdio_t;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:rmii:1.0 eth_rmii CRS_DV" *) input eth_rmii_crs_dv;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:rmii:1.0 eth_rmii RX_ER" *) input eth_rmii_rx_er;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:rmii:1.0 eth_rmii RXD" *) input [1:0]eth_rmii_rxd;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:rmii:1.0 eth_rmii TX_EN" *) output eth_rmii_tx_en;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:rmii:1.0 eth_rmii TXD" *) output [1:0]eth_rmii_txd;
 
-  wire CLK100MHZ;
+  wire CLK100MHZ_1;
+  wire CPU_RESETN_1;
   wire JD3_1;
+  wire axi_ethernetlite_0_MDIO_MDC;
+  wire axi_ethernetlite_0_MDIO_MDIO_I;
+  wire axi_ethernetlite_0_MDIO_MDIO_O;
+  wire axi_ethernetlite_0_MDIO_MDIO_T;
+  wire axi_ethernetlite_0_MII_COL;
+  wire axi_ethernetlite_0_MII_CRS;
+  wire [3:0]axi_ethernetlite_0_MII_RXD;
+  wire axi_ethernetlite_0_MII_RX_CLK;
+  wire axi_ethernetlite_0_MII_RX_DV;
+  wire axi_ethernetlite_0_MII_RX_ER;
+  wire [3:0]axi_ethernetlite_0_MII_TXD;
+  wire axi_ethernetlite_0_MII_TX_CLK;
+  wire axi_ethernetlite_0_MII_TX_EN;
+  wire clk_wiz_0_clk_out100;
+  wire clk_wiz_0_clk_out50;
+  wire clk_wiz_0_locked;
   wire [31:0]i2s_receiver_0_m_axis_aud_TDATA;
   wire [2:0]i2s_receiver_0_m_axis_aud_TID;
   wire i2s_receiver_0_m_axis_aud_TREADY;
   wire i2s_receiver_0_m_axis_aud_TVALID;
   wire i2s_reciever_JD2;
   wire i2s_reciever_JD4;
+  wire mii_to_rmii_0_RMII_PHY_M_CRS_DV;
+  wire [1:0]mii_to_rmii_0_RMII_PHY_M_RXD;
+  wire mii_to_rmii_0_RMII_PHY_M_RX_ER;
+  wire [1:0]mii_to_rmii_0_RMII_PHY_M_TXD;
+  wire mii_to_rmii_0_RMII_PHY_M_TX_EN;
   wire [0:0]proc_sys_reset_0_peripheral_aresetn;
   wire [0:0]proc_sys_reset_0_peripheral_reset;
   wire pwm_modulator_wrap_0_pwm_out;
-  wire reset_1;
   wire [0:0]xlconstant_0_dout;
 
   assign AUD_PWM = pwm_modulator_wrap_0_pwm_out;
+  assign CLK100MHZ_1 = CLK100MHZ;
+  assign CPU_RESETN_1 = CPU_RESETN;
   assign JD1[0] = xlconstant_0_dout;
   assign JD2 = i2s_reciever_JD2;
   assign JD3_1 = JD3;
   assign JD4 = i2s_reciever_JD4;
-  assign LED0 = reset_1;
-  assign reset_1 = CPU_RESETN;
+  assign LED0 = clk_wiz_0_locked;
+  assign axi_ethernetlite_0_MDIO_MDIO_I = eth_mdio_mdc_mdio_i;
+  assign eth_mdio_mdc_mdc = axi_ethernetlite_0_MDIO_MDC;
+  assign eth_mdio_mdc_mdio_o = axi_ethernetlite_0_MDIO_MDIO_O;
+  assign eth_mdio_mdc_mdio_t = axi_ethernetlite_0_MDIO_MDIO_T;
+  assign eth_rmii_tx_en = mii_to_rmii_0_RMII_PHY_M_TX_EN;
+  assign eth_rmii_txd[1:0] = mii_to_rmii_0_RMII_PHY_M_TXD;
+  assign mii_to_rmii_0_RMII_PHY_M_CRS_DV = eth_rmii_crs_dv;
+  assign mii_to_rmii_0_RMII_PHY_M_RXD = eth_rmii_rxd[1:0];
+  assign mii_to_rmii_0_RMII_PHY_M_RX_ER = eth_rmii_rx_er;
+  ANC_PROJ_BD_axi_ethernetlite_0_0 axi_ethernetlite_0
+       (.phy_col(axi_ethernetlite_0_MII_COL),
+        .phy_crs(axi_ethernetlite_0_MII_CRS),
+        .phy_dv(axi_ethernetlite_0_MII_RX_DV),
+        .phy_mdc(axi_ethernetlite_0_MDIO_MDC),
+        .phy_mdio_i(axi_ethernetlite_0_MDIO_MDIO_I),
+        .phy_mdio_o(axi_ethernetlite_0_MDIO_MDIO_O),
+        .phy_mdio_t(axi_ethernetlite_0_MDIO_MDIO_T),
+        .phy_rx_clk(axi_ethernetlite_0_MII_RX_CLK),
+        .phy_rx_data(axi_ethernetlite_0_MII_RXD),
+        .phy_rx_er(axi_ethernetlite_0_MII_RX_ER),
+        .phy_tx_clk(axi_ethernetlite_0_MII_TX_CLK),
+        .phy_tx_data(axi_ethernetlite_0_MII_TXD),
+        .phy_tx_en(axi_ethernetlite_0_MII_TX_EN),
+        .s_axi_aclk(clk_wiz_0_clk_out100),
+        .s_axi_araddr({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
+        .s_axi_aresetn(proc_sys_reset_0_peripheral_aresetn),
+        .s_axi_arvalid(1'b0),
+        .s_axi_awaddr({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
+        .s_axi_awvalid(1'b0),
+        .s_axi_bready(1'b0),
+        .s_axi_rready(1'b0),
+        .s_axi_wdata({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
+        .s_axi_wstrb({1'b1,1'b1,1'b1,1'b1}),
+        .s_axi_wvalid(1'b0));
+  ANC_PROJ_BD_clk_wiz_0_0 clk_wiz_0
+       (.clk_in1(CLK100MHZ_1),
+        .clk_out100(clk_wiz_0_clk_out100),
+        .clk_out50(clk_wiz_0_clk_out50),
+        .locked(clk_wiz_0_locked),
+        .resetn(proc_sys_reset_0_peripheral_aresetn));
   i2s_reciever_imp_1HBR798 i2s_reciever
-       (.CLK100MHZ(CLK100MHZ),
+       (.CLK100MHZ(clk_wiz_0_clk_out100),
         .JD2(i2s_reciever_JD2),
         .JD3(JD3_1),
         .JD4(i2s_reciever_JD4),
@@ -62,16 +142,34 @@ module ANC_PROJ_BD
         .m_axis_aud_tid(i2s_receiver_0_m_axis_aud_TID),
         .m_axis_aud_tready(i2s_receiver_0_m_axis_aud_TREADY),
         .m_axis_aud_tvalid(i2s_receiver_0_m_axis_aud_TVALID));
+  ANC_PROJ_BD_mii_to_rmii_0_0 mii_to_rmii_0
+       (.mac2rmii_tx_en(axi_ethernetlite_0_MII_TX_EN),
+        .mac2rmii_tx_er(1'b0),
+        .mac2rmii_txd(axi_ethernetlite_0_MII_TXD),
+        .phy2rmii_crs_dv(mii_to_rmii_0_RMII_PHY_M_CRS_DV),
+        .phy2rmii_rx_er(mii_to_rmii_0_RMII_PHY_M_RX_ER),
+        .phy2rmii_rxd(mii_to_rmii_0_RMII_PHY_M_RXD),
+        .ref_clk(clk_wiz_0_clk_out50),
+        .rmii2mac_col(axi_ethernetlite_0_MII_COL),
+        .rmii2mac_crs(axi_ethernetlite_0_MII_CRS),
+        .rmii2mac_rx_clk(axi_ethernetlite_0_MII_RX_CLK),
+        .rmii2mac_rx_dv(axi_ethernetlite_0_MII_RX_DV),
+        .rmii2mac_rx_er(axi_ethernetlite_0_MII_RX_ER),
+        .rmii2mac_rxd(axi_ethernetlite_0_MII_RXD),
+        .rmii2mac_tx_clk(axi_ethernetlite_0_MII_TX_CLK),
+        .rmii2phy_tx_en(mii_to_rmii_0_RMII_PHY_M_TX_EN),
+        .rmii2phy_txd(mii_to_rmii_0_RMII_PHY_M_TXD),
+        .rst_n(proc_sys_reset_0_peripheral_aresetn));
   ANC_PROJ_BD_proc_sys_reset_0_0 proc_sys_reset_0
        (.aux_reset_in(1'b1),
         .dcm_locked(1'b1),
-        .ext_reset_in(reset_1),
+        .ext_reset_in(CPU_RESETN_1),
         .mb_debug_sys_rst(1'b0),
         .peripheral_aresetn(proc_sys_reset_0_peripheral_aresetn),
         .peripheral_reset(proc_sys_reset_0_peripheral_reset),
-        .slowest_sync_clk(CLK100MHZ));
+        .slowest_sync_clk(CLK100MHZ_1));
   ANC_PROJ_BD_pwm_modulator_wrap_0_0 pwm_modulator_wrap_0
-       (.m_axis_aud_aclk(CLK100MHZ),
+       (.m_axis_aud_aclk(clk_wiz_0_clk_out100),
         .m_axis_aud_aresetn(proc_sys_reset_0_peripheral_aresetn),
         .m_axis_aud_tdata(i2s_receiver_0_m_axis_aud_TDATA),
         .m_axis_aud_tid(i2s_receiver_0_m_axis_aud_TID),
