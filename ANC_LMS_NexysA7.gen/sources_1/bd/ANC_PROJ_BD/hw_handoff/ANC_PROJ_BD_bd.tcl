@@ -168,6 +168,10 @@ proc create_hier_cell_i2s_reciever { parentCell nameHier } {
   current_bd_instance $hier_obj
 
   # Create interface pins
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S01_AXI
+
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S01_AXI1
+
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 m_axis_aud
 
 
@@ -200,9 +204,11 @@ proc create_hier_cell_i2s_reciever { parentCell nameHier } {
   set i2s_reciever_config_0_axi_periph [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 i2s_reciever_config_0_axi_periph ]
   set_property -dict [ list \
    CONFIG.NUM_MI {1} \
+   CONFIG.NUM_SI {2} \
  ] $i2s_reciever_config_0_axi_periph
 
   # Create interface connections
+  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins S01_AXI1] [get_bd_intf_pins i2s_reciever_config_0_axi_periph/S01_AXI]
   connect_bd_intf_net -intf_net i2s_receiver_0_m_axis_aud [get_bd_intf_pins m_axis_aud] [get_bd_intf_pins i2s_receiver_0/m_axis_aud]
   connect_bd_intf_net -intf_net i2s_reciever_config_0_axi_periph_M00_AXI [get_bd_intf_pins i2s_receiver_0/s_axi_ctrl] [get_bd_intf_pins i2s_reciever_config_0_axi_periph/M00_AXI]
   connect_bd_intf_net -intf_net i2s_reciever_config_0_s_axi_ctrl [get_bd_intf_pins i2s_reciever_config_0/s_axi_ctrl] [get_bd_intf_pins i2s_reciever_config_0_axi_periph/S00_AXI]
@@ -211,9 +217,9 @@ proc create_hier_cell_i2s_reciever { parentCell nameHier } {
   connect_bd_net -net JD3_1 [get_bd_pins JD3] [get_bd_pins i2s_receiver_0/sdata_0_in]
   connect_bd_net -net i2s_receiver_0_lrclk_out [get_bd_pins JD2] [get_bd_pins i2s_receiver_0/lrclk_out]
   connect_bd_net -net i2s_receiver_0_sclk_out [get_bd_pins JD4] [get_bd_pins i2s_receiver_0/sclk_out]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins S00_ARESETN] [get_bd_pins i2s_receiver_0/m_axis_aud_aresetn] [get_bd_pins i2s_receiver_0/s_axi_ctrl_aresetn] [get_bd_pins i2s_reciever_config_0/s_axi_ctrl_aresetn] [get_bd_pins i2s_reciever_config_0_axi_periph/ARESETN] [get_bd_pins i2s_reciever_config_0_axi_periph/M00_ARESETN] [get_bd_pins i2s_reciever_config_0_axi_periph/S00_ARESETN]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins S00_ARESETN] [get_bd_pins i2s_receiver_0/m_axis_aud_aresetn] [get_bd_pins i2s_receiver_0/s_axi_ctrl_aresetn] [get_bd_pins i2s_reciever_config_0/s_axi_ctrl_aresetn] [get_bd_pins i2s_reciever_config_0_axi_periph/ARESETN] [get_bd_pins i2s_reciever_config_0_axi_periph/M00_ARESETN] [get_bd_pins i2s_reciever_config_0_axi_periph/S00_ARESETN] [get_bd_pins i2s_reciever_config_0_axi_periph/S01_ARESETN]
   connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins aud_mrst] [get_bd_pins i2s_receiver_0/aud_mrst]
-  connect_bd_net -net sys_clock_1 [get_bd_pins CLK100MHZ] [get_bd_pins i2s_receiver_0/aud_mclk] [get_bd_pins i2s_receiver_0/m_axis_aud_aclk] [get_bd_pins i2s_receiver_0/s_axi_ctrl_aclk] [get_bd_pins i2s_reciever_config_0/s_axi_ctrl_aclk] [get_bd_pins i2s_reciever_config_0_axi_periph/ACLK] [get_bd_pins i2s_reciever_config_0_axi_periph/M00_ACLK] [get_bd_pins i2s_reciever_config_0_axi_periph/S00_ACLK]
+  connect_bd_net -net sys_clock_1 [get_bd_pins CLK100MHZ] [get_bd_pins i2s_receiver_0/aud_mclk] [get_bd_pins i2s_receiver_0/m_axis_aud_aclk] [get_bd_pins i2s_receiver_0/s_axi_ctrl_aclk] [get_bd_pins i2s_reciever_config_0/s_axi_ctrl_aclk] [get_bd_pins i2s_reciever_config_0_axi_periph/ACLK] [get_bd_pins i2s_reciever_config_0_axi_periph/M00_ACLK] [get_bd_pins i2s_reciever_config_0_axi_periph/S00_ACLK] [get_bd_pins i2s_reciever_config_0_axi_periph/S01_ACLK]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -274,6 +280,9 @@ proc create_root_design { parentCell } {
   # Create instance: i2s_reciever
   create_hier_cell_i2s_reciever [current_bd_instance .] i2s_reciever
 
+  # Create instance: jtag_axi_0, and set properties
+  set jtag_axi_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:jtag_axi:1.2 jtag_axi_0 ]
+
   # Create instance: proc_sys_reset_0, and set properties
   set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0 ]
   set_property -dict [ list \
@@ -301,16 +310,17 @@ proc create_root_design { parentCell } {
   # Create interface connections
   connect_bd_intf_net -intf_net i2s_receiver_0_m_axis_aud [get_bd_intf_pins i2s_reciever/m_axis_aud] [get_bd_intf_pins pwm_modulator_wrap_0/m_axis_aud]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets i2s_receiver_0_m_axis_aud]
+  connect_bd_intf_net -intf_net jtag_axi_0_M_AXI [get_bd_intf_pins i2s_reciever/S01_AXI1] [get_bd_intf_pins jtag_axi_0/M_AXI]
 
   # Create port connections
-  connect_bd_net -net CLK100MHZ [get_bd_ports CLK100MHZ] [get_bd_pins i2s_reciever/CLK100MHZ] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aclk]
+  connect_bd_net -net CLK100MHZ [get_bd_ports CLK100MHZ] [get_bd_pins i2s_reciever/CLK100MHZ] [get_bd_pins jtag_axi_0/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aclk]
   connect_bd_net -net JD3_1 [get_bd_ports JD3] [get_bd_pins i2s_reciever/JD3]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets JD3_1]
   connect_bd_net -net i2s_reciever_JD2 [get_bd_ports JD2] [get_bd_pins i2s_reciever/JD2]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets i2s_reciever_JD2]
   connect_bd_net -net i2s_reciever_JD4 [get_bd_ports JD4] [get_bd_pins i2s_reciever/JD4]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets i2s_reciever_JD4]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins i2s_reciever/S00_ARESETN] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aresetn]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins i2s_reciever/S00_ARESETN] [get_bd_pins jtag_axi_0/aresetn] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins pwm_modulator_wrap_0/m_axis_aud_aresetn]
   connect_bd_net -net proc_sys_reset_0_peripheral_reset [get_bd_pins i2s_reciever/aud_mrst] [get_bd_pins proc_sys_reset_0/peripheral_reset]
   connect_bd_net -net pwm_modulator_wrap_0_pwm_out [get_bd_ports JD10] [get_bd_pins pwm_modulator_wrap_0/pwm_out]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets pwm_modulator_wrap_0_pwm_out]
@@ -318,6 +328,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net xlconstant_0_dout [get_bd_ports JD1] [get_bd_pins xlconstant_0/dout]
 
   # Create address segments
+  assign_bd_address -offset 0x00000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces jtag_axi_0/Data] [get_bd_addr_segs i2s_reciever/i2s_receiver_0/s_axi_ctrl/Reg] -force
   assign_bd_address -offset 0x00000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces i2s_reciever/i2s_reciever_config_0/s_axi_ctrl] [get_bd_addr_segs i2s_reciever/i2s_receiver_0/s_axi_ctrl/Reg] -force
 
 
