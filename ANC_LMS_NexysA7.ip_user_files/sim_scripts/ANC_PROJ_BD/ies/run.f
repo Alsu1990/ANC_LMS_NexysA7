@@ -9,14 +9,6 @@
   "C:/Xilinx/Vivado/2021.1/data/xilinx_vip/hdl/clk_vip_if.sv" \
   "C:/Xilinx/Vivado/2021.1/data/xilinx_vip/hdl/rst_vip_if.sv" \
 -endlib
--makelib ies_lib/xpm -sv \
-  "C:/Xilinx/Vivado/2021.1/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
-  "C:/Xilinx/Vivado/2021.1/data/ip/xpm/xpm_fifo/hdl/xpm_fifo.sv" \
-  "C:/Xilinx/Vivado/2021.1/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
--endlib
--makelib ies_lib/xpm \
-  "C:/Xilinx/Vivado/2021.1/data/ip/xpm/xpm_VCOMP.vhd" \
--endlib
 -makelib ies_lib/lib_cdc_v1_0_2 \
   "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/ef1e/hdl/lib_cdc_v1_0_rfs.vhd" \
 -endlib
@@ -25,6 +17,19 @@
 -endlib
 -makelib ies_lib/xil_defaultlib \
   "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_proc_sys_reset_0_0/sim/ANC_PROJ_BD_proc_sys_reset_0_0.vhd" \
+-endlib
+-makelib ies_lib/xlconstant_v1_1_7 \
+  "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/fcfc/hdl/xlconstant_v1_1_vl_rfs.v" \
+-endlib
+-makelib ies_lib/xil_defaultlib \
+  "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_xlconstant_0_0/sim/ANC_PROJ_BD_xlconstant_0_0.v" \
+-endlib
+-makelib ies_lib/jtag_axi \
+  "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/a12c/hdl/jtag_axi_v1_2_rfs.v" \
+-endlib
+-makelib ies_lib/xil_defaultlib \
+  "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_jtag_axi_0_0/sim/ANC_PROJ_BD_jtag_axi_0_0.v" \
+  "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_pwm_modulator_wrap_0_0/sim/ANC_PROJ_BD_pwm_modulator_wrap_0_0.v" \
 -endlib
 -makelib ies_lib/i2s_receiver_v1_0_5 -sv \
   "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/9736/hdl/i2s_receiver_v1_0_rfs.sv" \
@@ -59,19 +64,6 @@
 -makelib ies_lib/xil_defaultlib \
   "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_xbar_1/sim/ANC_PROJ_BD_xbar_1.v" \
   "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_i2s_reciever_config_0_0/sim/ANC_PROJ_BD_i2s_reciever_config_0_0.v" \
--endlib
--makelib ies_lib/xlconstant_v1_1_7 \
-  "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/fcfc/hdl/xlconstant_v1_1_vl_rfs.v" \
--endlib
--makelib ies_lib/xil_defaultlib \
-  "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_xlconstant_0_0/sim/ANC_PROJ_BD_xlconstant_0_0.v" \
--endlib
--makelib ies_lib/jtag_axi \
-  "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/a12c/hdl/jtag_axi_v1_2_rfs.v" \
--endlib
--makelib ies_lib/xil_defaultlib \
-  "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_jtag_axi_0_0/sim/ANC_PROJ_BD_jtag_axi_0_0.v" \
-  "../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_pwm_modulator_wrap_0_0/sim/ANC_PROJ_BD_pwm_modulator_wrap_0_0.v" \
 -endlib
 -makelib ies_lib/axi_protocol_converter_v2_1_24 \
   "../../../../ANC_LMS_NexysA7.gen/sources_1/bd/ANC_PROJ_BD/ipshared/6e0d/hdl/axi_protocol_converter_v2_1_vl_rfs.v" \

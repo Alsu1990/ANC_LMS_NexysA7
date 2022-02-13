@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Jan 14 13:42:01 2022" VIVADOVERSION="2021.1.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Feb 13 19:47:24 2022" VIVADOVERSION="2021.1.1">
 
   <SYSTEMINFO ARCH="artix7" BOARD="digilentinc.com:nexys4_ddr:part0:1.1" DEVICE="7a100t" NAME="ANC_PROJ_BD" PACKAGE="csg324" SPEEDGRADE="-1"/>
 
@@ -7,16 +7,16 @@
     <PORT CLKFREQUENCY="100000000" DIR="I" NAME="CLK100MHZ" SIGIS="clk" SIGNAME="External_Ports_CLK100MHZ">
       <CONNECTIONS>
         <CONNECTION INSTANCE="proc_sys_reset_0" PORT="slowest_sync_clk"/>
+        <CONNECTION INSTANCE="jtag_axi_0" PORT="aclk"/>
+        <CONNECTION INSTANCE="pwm_modulator_wrap_0" PORT="m_axis_aud_aclk"/>
         <CONNECTION INSTANCE="i2s_reciever_i2s_receiver_0" PORT="s_axi_ctrl_aclk"/>
         <CONNECTION INSTANCE="i2s_reciever_i2s_receiver_0" PORT="aud_mclk"/>
         <CONNECTION INSTANCE="i2s_reciever_i2s_receiver_0" PORT="m_axis_aud_aclk"/>
         <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="ACLK"/>
-        <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="S00_ACLK"/>
-        <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="M00_ACLK"/>
         <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="S01_ACLK"/>
+        <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="M00_ACLK"/>
+        <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="S00_ACLK"/>
         <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0" PORT="s_axi_ctrl_aclk"/>
-        <CONNECTION INSTANCE="jtag_axi_0" PORT="aclk"/>
-        <CONNECTION INSTANCE="pwm_modulator_wrap_0" PORT="m_axis_aud_aclk"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="CPU_RESETN" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="External_Ports_CPU_RESETN">
@@ -846,7 +846,7 @@
             <CONNECTION INSTANCE="jtag_axi_0" PORT="m_axi_awburst"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="S01_AXI_awlock" SIGIS="undef" SIGNAME="i2s_reciever_i2s_reciever_config_0_axi_periph_S01_AXI_awlock">
+        <PORT DIR="I" LEFT="0" NAME="S01_AXI_awlock" RIGHT="0" SIGIS="undef" SIGNAME="i2s_reciever_i2s_reciever_config_0_axi_periph_S01_AXI_awlock">
           <CONNECTIONS>
             <CONNECTION INSTANCE="jtag_axi_0" PORT="m_axi_awlock"/>
           </CONNECTIONS>
@@ -947,7 +947,7 @@
             <CONNECTION INSTANCE="jtag_axi_0" PORT="m_axi_arburst"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" NAME="S01_AXI_arlock" SIGIS="undef" SIGNAME="i2s_reciever_i2s_reciever_config_0_axi_periph_S01_AXI_arlock">
+        <PORT DIR="I" LEFT="0" NAME="S01_AXI_arlock" RIGHT="0" SIGIS="undef" SIGNAME="i2s_reciever_i2s_reciever_config_0_axi_periph_S01_AXI_arlock">
           <CONNECTIONS>
             <CONNECTION INSTANCE="jtag_axi_0" PORT="m_axi_arlock"/>
           </CONNECTIONS>
@@ -1604,15 +1604,15 @@
         <PORT DIR="O" LEFT="0" NAME="interconnect_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst"/>
         <PORT DIR="O" LEFT="0" NAME="peripheral_aresetn" POLARITY="ACTIVE_LOW" RIGHT="0" SIGIS="rst" SIGNAME="proc_sys_reset_0_peripheral_aresetn">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="i2s_reciever_i2s_receiver_0" PORT="s_axi_ctrl_aresetn"/>
-            <CONNECTION INSTANCE="i2s_reciever_i2s_receiver_0" PORT="m_axis_aud_aresetn"/>
-            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="S00_ARESETN"/>
-            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="M00_ARESETN"/>
-            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="ARESETN"/>
-            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="S01_ARESETN"/>
-            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0" PORT="s_axi_ctrl_aresetn"/>
             <CONNECTION INSTANCE="jtag_axi_0" PORT="aresetn"/>
             <CONNECTION INSTANCE="pwm_modulator_wrap_0" PORT="m_axis_aud_aresetn"/>
+            <CONNECTION INSTANCE="i2s_reciever_i2s_receiver_0" PORT="s_axi_ctrl_aresetn"/>
+            <CONNECTION INSTANCE="i2s_reciever_i2s_receiver_0" PORT="m_axis_aud_aresetn"/>
+            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="ARESETN"/>
+            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="S01_ARESETN"/>
+            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="M00_ARESETN"/>
+            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0_axi_periph" PORT="S00_ARESETN"/>
+            <CONNECTION INSTANCE="i2s_reciever_i2s_reciever_config_0" PORT="s_axi_ctrl_aresetn"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

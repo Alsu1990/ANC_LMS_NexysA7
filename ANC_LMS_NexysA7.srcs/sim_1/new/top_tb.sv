@@ -197,6 +197,8 @@ module top_design_tb;
 	logic   	JD4;  // mic's clock
 	logic    	LED0;
 	logic   	JD10;
+	logic 		usb_uart_rxd;
+	logic 		usb_uart_txd;
 
 	localparam CLK_PERIOD = 10;
 	always #(CLK_PERIOD/2) CLK100MHZ = !CLK100MHZ;

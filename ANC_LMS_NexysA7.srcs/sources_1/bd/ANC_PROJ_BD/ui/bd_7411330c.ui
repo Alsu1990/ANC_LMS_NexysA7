@@ -1,0 +1,46 @@
+{
+   "ActiveEmotionalView":"No Loops",
+   "Default View_ScaleFactor":"1.5",
+   "Default View_TopLeft":"-354,-169",
+   "ExpandedHierarchyInLayout":"",
+   "No Loops_ExpandedHierarchyInLayout":"",
+   "No Loops_Layout":"# # String gsaved with Nlview 7.0r6  2020-01-29 bk=1.5227 VDI=41 GEI=36 GUI=JA:10.0 non-TLS
+#  -string -flagsOSRD
+preplace port usb_uart -pg 1 -lvl 3 -x 580 -y 150 -defaultsOSRD
+preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x 0 -y 120 -defaultsOSRD
+preplace port port-id_s_axi_aresetn -pg 1 -lvl 0 -x 0 -y 150 -defaultsOSRD
+preplace port port-id_debug_trig_in -pg 1 -lvl 0 -x 0 -y 90 -defaultsOSRD
+preplace portBus debug_probe_in -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD
+preplace inst data_logger_0 -pg 1 -lvl 1 -x 190 -y 60 -defaultsOSRD -pinDir m_axi right -pinY m_axi 90R -pinBusDir debug_probe_in left -pinBusY debug_probe_in 0L -pinDir debug_trig_in left -pinY debug_trig_in 30L -pinDir debug_clk_in left -pinY debug_clk_in 50L -pinDir m_axi_aclk left -pinY m_axi_aclk 70L -pinDir m_axi_aresetn left -pinY m_axi_aresetn 90L
+preplace inst axi_uartlite_0 -pg 1 -lvl 2 -x 450 -y 150 -defaultsOSRD -pinDir S_AXI left -pinY S_AXI 0L -pinDir UART right -pinY UART 0R -pinDir s_axi_aclk left -pinY s_axi_aclk 60L -pinDir s_axi_aresetn left -pinY s_axi_aresetn 80L -pinDir interrupt right -pinY interrupt 20R
+preplace netloc CLK100MHZ_1 1 0 2 40 210 N
+preplace netloc debug_probe_in_1 1 0 1 NJ 60
+preplace netloc debug_trig_in_1 1 0 1 NJ 90
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 0 2 20 230 N
+preplace netloc axi_uartlite_0_UART 1 2 1 N 150
+preplace netloc data_logger_0_m_axi 1 1 1 N 150
+levelinfo -pg 1 0 190 450 580
+pagesize -pg 1 -db -bbox -sgen -190 0 690 290
+",
+   "No Loops_ScaleFactor":"1.5",
+   "No Loops_TopLeft":"-371,-129",
+   "guistr":"# # String gsaved with Nlview 7.0r6  2020-01-29 bk=1.5227 VDI=41 GEI=36 GUI=JA:10.0 non-TLS
+#  -string -flagsOSRD
+preplace port usb_uart -pg 1 -lvl 3 -x 600 -y 100 -defaultsOSRD
+preplace port port-id_CLK100MHZ -pg 1 -lvl 0 -x 0 -y 90 -defaultsOSRD
+preplace port port-id_s_axi_aresetn -pg 1 -lvl 0 -x 0 -y 130 -defaultsOSRD
+preplace port port-id_debug_trig_in -pg 1 -lvl 0 -x 0 -y 70 -defaultsOSRD
+preplace portBus debug_probe_in -pg 1 -lvl 0 -x 0 -y 50 -defaultsOSRD
+preplace inst data_logger_0 -pg 1 -lvl 1 -x 180 -y 90 -defaultsOSRD
+preplace inst axi_uartlite_0 -pg 1 -lvl 2 -x 460 -y 110 -defaultsOSRD
+preplace netloc CLK100MHZ_1 1 0 2 30 190 330J
+preplace netloc debug_probe_in_1 1 0 1 NJ 50
+preplace netloc debug_trig_in_1 1 0 1 NJ 70
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 0 2 20 200 340J
+preplace netloc axi_uartlite_0_UART 1 2 1 N 100
+preplace netloc data_logger_0_m_axi 1 1 1 N 90
+levelinfo -pg 1 0 180 460 600
+pagesize -pg 1 -db -bbox -sgen -200 0 710 210
+"
+}
+
