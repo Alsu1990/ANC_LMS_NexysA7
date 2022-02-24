@@ -3012,3 +3012,4 @@ I_SLAVE_ATTACHMENT:  entity axi_lite_ipif_v3_0_4.slave_attachment
 end imp;
 
 
+

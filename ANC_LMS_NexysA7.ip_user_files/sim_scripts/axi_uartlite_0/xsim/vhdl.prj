@@ -1,4 +1,0 @@
-vhdl xil_defaultlib  \
-"../../../../ANC_LMS_NexysA7.gen/sources_1/ip/axi_uartlite_0/sim/axi_uartlite_0.vhd" \
-
-nosort

@@ -156,10 +156,10 @@ BEGIN
   U0 : axi_uartlite
     GENERIC MAP (
       C_FAMILY => "artix7",
-      C_S_AXI_ACLK_FREQ_HZ => 100000000,
+      C_S_AXI_ACLK_FREQ_HZ => 250000000,
       C_S_AXI_ADDR_WIDTH => 4,
       C_S_AXI_DATA_WIDTH => 32,
-      C_BAUDRATE => 230400,
+      C_BAUDRATE => 921600,
       C_DATA_BITS => 8,
       C_USE_PARITY => 0,
       C_ODD_PARITY => 0
