@@ -523,6 +523,7 @@ module eth_udp_send #(
             payload_nibbles <= '0;
             rdy             <= 0;
             state           <= POWER_UP;
+            fifo_rd_en <= 0;
         end else begin
             // No longer need to reset
             eth.rstn <= 1;
