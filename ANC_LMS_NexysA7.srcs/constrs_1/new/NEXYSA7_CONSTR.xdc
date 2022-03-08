@@ -211,93 +211,27 @@ set_property -dict {PACKAGE_PIN F3     IOSTANDARD LVCMOS33 } [get_ports { jd[10]
 #set_property -dict { PACKAGE_PIN L13   IOSTANDARD LVCMOS33 } [get_ports { QSPI_CSN }]; #IO_L6P_T0_FCS_B_14 Sch=qspi_csn
 
 
-create_debug_core u_ila_0 ila
-set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
-set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0]
-set_property C_ADV_TRIGGER true [get_debug_cores u_ila_0]
-set_property C_DATA_DEPTH 4096 [get_debug_cores u_ila_0]
-set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_0]
-set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
-set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
-set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
-set_property port_width 1 [get_debug_ports u_ila_0/clk]
 connect_debug_port u_ila_0/clk [get_nets [list CLK100MHZ_IBUF_BUFG]]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
-set_property port_width 32 [get_debug_ports u_ila_0/probe0]
 connect_debug_port u_ila_0/probe0 [get_nets [list {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[0]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[1]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[2]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[3]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[4]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[5]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[6]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[7]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[8]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[9]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[10]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[11]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[12]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[13]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[14]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[15]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[16]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[17]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[18]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[19]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[20]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[21]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[22]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[23]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[24]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[25]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[26]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[27]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[28]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[29]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[30]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TDATA[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
-set_property port_width 3 [get_debug_ports u_ila_0/probe1]
 connect_debug_port u_ila_0/probe1 [get_nets [list {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TID[0]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TID[1]} {ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TID[2]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
-set_property port_width 1 [get_debug_ports u_ila_0/probe2]
 connect_debug_port u_ila_0/probe2 [get_nets [list ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TREADY]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
-set_property port_width 1 [get_debug_ports u_ila_0/probe3]
 connect_debug_port u_ila_0/probe3 [get_nets [list ANC_PROJ_BD_i/i2s_receiver_0_m_axis_aud_TVALID]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
-set_property port_width 1 [get_debug_ports u_ila_0/probe4]
 connect_debug_port u_ila_0/probe4 [get_nets [list ANC_PROJ_BD_i/i2s_reciever_JD2]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe5]
-set_property port_width 1 [get_debug_ports u_ila_0/probe5]
 connect_debug_port u_ila_0/probe5 [get_nets [list ANC_PROJ_BD_i/i2s_reciever_JD4]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
-set_property port_width 1 [get_debug_ports u_ila_0/probe6]
 connect_debug_port u_ila_0/probe6 [get_nets [list ANC_PROJ_BD_i/JD3_1]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
-set_property port_width 1 [get_debug_ports u_ila_0/probe7]
 connect_debug_port u_ila_0/probe7 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_arready]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe8]
-set_property port_width 1 [get_debug_ports u_ila_0/probe8]
 connect_debug_port u_ila_0/probe8 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_arvalid]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe9]
-set_property port_width 1 [get_debug_ports u_ila_0/probe9]
 connect_debug_port u_ila_0/probe9 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_awready]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe10]
-set_property port_width 1 [get_debug_ports u_ila_0/probe10]
 connect_debug_port u_ila_0/probe10 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_awvalid]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe11]
-set_property port_width 1 [get_debug_ports u_ila_0/probe11]
 connect_debug_port u_ila_0/probe11 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_bready]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe12]
-set_property port_width 1 [get_debug_ports u_ila_0/probe12]
 connect_debug_port u_ila_0/probe12 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_bvalid]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe13]
-set_property port_width 1 [get_debug_ports u_ila_0/probe13]
 connect_debug_port u_ila_0/probe13 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_rlast]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe14]
-set_property port_width 1 [get_debug_ports u_ila_0/probe14]
 connect_debug_port u_ila_0/probe14 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_rready]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe15]
-set_property port_width 1 [get_debug_ports u_ila_0/probe15]
 connect_debug_port u_ila_0/probe15 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_rvalid]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe16]
-set_property port_width 1 [get_debug_ports u_ila_0/probe16]
 connect_debug_port u_ila_0/probe16 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_wready]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe17]
-set_property port_width 1 [get_debug_ports u_ila_0/probe17]
 connect_debug_port u_ila_0/probe17 [get_nets [list ANC_PROJ_BD_i/jtag_axi_0/m_axi_wvalid]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe18]
-set_property port_width 1 [get_debug_ports u_ila_0/probe18]
 connect_debug_port u_ila_0/probe18 [get_nets [list ANC_PROJ_BD_i/pwm_modulator_wrap_0_pwm_out]]
-set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
-set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
-set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
 connect_debug_port dbg_hub/clk [get_nets CLK100MHZ_IBUF_BUFG]
+
+create_clock -period 10.000 -name clk_i -waveform {0.000 5.000} [get_ports clk_i]
+create_clock -period 40.000 -name eth_tx_clk_i -waveform {0.000 20.000} [get_ports eth_tx_clk_i]

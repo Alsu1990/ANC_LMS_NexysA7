@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module eth_logger_main
+module eth_logger
     #(
         PROBE_WIDTH = 16 // must be %(nibble_size=4)
         )
@@ -32,6 +32,7 @@ module eth_logger_main
     input logic [PROBE_WIDTH-1:0]       debug_probe_i, 
     input logic                         debug_trig_i,
     // Ethernet Phy interface
+    input  logic                        clk25,
     output logic                        eth_ref_clk_o,
     output logic                        eth_rstn_o,
     input  logic                        eth_tx_clk_i,
@@ -84,9 +85,9 @@ module eth_logger_main
     ////////////////////////////////////////////////////////////////
     // probe data need to be packed in 4 bits nibbles
     // neebles number = PROBE_WIDTH >> log2(4)
-   typedef struct packed {
-       logic [3:0] nibble;
-   } nibble_t;
+    typedef struct packed {
+        logic [3:0] nibble;
+        } nibble_t;
     nibble_t [(PROBE_WIDTH>>2)-1:0]         nibbles_tx_q;
     logic [(($clog2(PROBE_WIDTH>>2))-1):0]  nibbles_tx_ptr;
     logic                                   last_nibble;
@@ -95,7 +96,19 @@ module eth_logger_main
     logic           wr_en;
     logic [3:0]     wr_d;
     logic           wr_rst_busy, wr_full;
-    // udp_fifo write fsm
+    // eth_udp_send eth control signals
+    logic           flush, rdy, mac_busy;
+    /// *   [flush] causes any data in the queue to be sent even if it is less than
+    ///     [MIN_DATA_BYTES] long. This will only send a multiple of two bytes so
+    ///     this may not send all data. It is read on the falling edge of
+    ///     [eth.tx_clk].
+    /// *   [mac_busy] indicates that packet is currently being sent. Note that the
+    ///     queue can still be written to when this is asserted. When this signal
+    ///     falls a packet has finished sending.
+    /// *   [rdy] indicates that the module is powered up and ready to communicate
+    ///     with the PHY when asserted high.
+    assign flush = 0; // not used in this design
+    // udp fifo write fsm
     typedef enum logic [1:0] { 
         IDLE =      2'b01,
         WRITE =     2'b10
@@ -117,8 +130,8 @@ module eth_logger_main
                     wr_en <= 0;
                     wr_d <= '0;
                     last_nibble <= 0;
-                    //check if fifo not in reset state
-                    if ((debug_trig_detect_q)&&(!wr_rst_busy)) begin
+                    //check if fifo not in reset state and eth_udp module is ready
+                    if ((debug_trig_detect_q)&&(!wr_rst_busy)&&(rdy)) begin
                         // data capture and nibble swap for eth transmition
                         nibbles_tx_q <= swap_nibbles(debug_probe_i);
                         state_q <= WRITE;
@@ -168,7 +181,7 @@ module eth_logger_main
     assign eth_rstn_o    = eth.rstn;    // Out
     assign eth.tx_clk  = eth_tx_clk_i;  // In
     assign eth_tx_en_o   = eth.tx_en;   // Out
-    assign eth_tx_d_o     = eth.tx_d;    // Out
+    assign eth_tx_d_o     = eth.tx_d;   // Out
     // eth_udp_send i nst
     eth_udp_send #(
         .CLK_RATIO(4),          // clk to clk25 ratio
@@ -190,6 +203,7 @@ module eth_logger_main
         .eth(eth),
         .flush(flush),
         .ip_info(ip_info),
+        .mac_busy(mac_busy),
         .rdy(rdy)
     );
 

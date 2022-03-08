@@ -31,11 +31,12 @@ logic                           eth_ref_clk_o;
 logic                           eth_rstn_o;
 bit                             eth_tx_clk_i;
 logic                           eth_tx_en_o;
-logic [3:0]                     eth_tx_d_o;
-
+logic [3:0]                     eth_tx_d_o;                        
 always #5 clk_i = ~clk_i;
 always #20 eth_tx_clk_i = ~eth_tx_clk_i;
-eth_logger_main #(PROBE_WIDTH) dut (.*);
+eth_logger #(PROBE_WIDTH) dut (
+    .clk25(eth_tx_clk_i),
+    .*);
 
 task automatic set_probe_data();
     debug_trig_i = 0;
