@@ -21,23 +21,20 @@
 
 
 module eth_logger
-    #(
-        PROBE_WIDTH = 16 // must be %(nibble_size=4)
-        )
-    (
-    // sys clk and rst
-    input logic                         clk_i,
-    input logic                         rstn_i,
-    // debug interface
-    input logic [PROBE_WIDTH-1:0]       debug_probe_i, 
-    input logic                         debug_trig_i,
-    // Ethernet Phy interface
-    input  logic                        clk25,
-    output logic                        eth_ref_clk_o,
-    output logic                        eth_rstn_o,
-    input  logic                        eth_tx_clk_i,
-    output logic                        eth_tx_en_o,
-    output logic [3:0]                  eth_tx_d_o
+    #(PROBE_WIDTH = 16)(  // must be %(nibble_size=4)
+        // sys clk and rst
+        input logic                         clk_i,
+        input logic                         rstn_i,
+        // debug interface
+        input logic [PROBE_WIDTH-1:0]       debug_probe_i, 
+        input logic                         debug_trig_i,
+        // Ethernet Phy interface
+        input  logic                        clk25,
+        output logic                        eth_ref_clk_o,
+        output logic                        eth_rstn_o,
+        input  logic                        eth_tx_clk_i,
+        output logic                        eth_tx_en_o,
+        output logic [3:0]                  eth_tx_d_o
         );
 
     ////////////////////////////////////////////////////////////////

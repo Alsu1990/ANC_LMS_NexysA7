@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.1.1 (win64) Build 3286242 Wed Jul 28 13:10:47 MDT 2021
-//Date        : Sun Feb 13 19:47:24 2022
+//Date        : Sat Mar 12 14:52:14 2022
 //Host        : AR-LAP-111 running 64-bit major release  (build 9200)
 //Command     : generate_target ANC_PROJ_BD_wrapper.bd
 //Design      : ANC_PROJ_BD_wrapper
@@ -17,7 +17,8 @@ module ANC_PROJ_BD_wrapper
     JD2,
     JD3,
     JD4,
-    LED0);
+    LED0,
+    irq_0);
   input CLK100MHZ;
   input CPU_RESETN;
   output [0:0]JD1;
@@ -26,6 +27,7 @@ module ANC_PROJ_BD_wrapper
   input JD3;
   output JD4;
   output LED0;
+  output irq_0;
 
   wire CLK100MHZ;
   wire CPU_RESETN;
@@ -35,6 +37,7 @@ module ANC_PROJ_BD_wrapper
   wire JD3;
   wire JD4;
   wire LED0;
+  wire irq_0;
 
   ANC_PROJ_BD ANC_PROJ_BD_i
        (.CLK100MHZ(CLK100MHZ),
@@ -44,5 +47,6 @@ module ANC_PROJ_BD_wrapper
         .JD2(JD2),
         .JD3(JD3),
         .JD4(JD4),
-        .LED0(LED0));
+        .LED0(LED0),
+        .irq_0(irq_0));
 endmodule
