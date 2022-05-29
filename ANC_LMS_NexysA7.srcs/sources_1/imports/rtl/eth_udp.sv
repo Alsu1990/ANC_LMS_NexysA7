@@ -463,22 +463,23 @@ module eth_udp_send #(
 
     // This enum is used to track the progress of a state machine that writes
     // the data to the PHY.
-    enum {
-        POWER_UP,
-        READY,
-        PREPARE,
-        LENGTHS,
-        IP_CHECKSUM,
-        SEND_PREAMBLE_SFD,
-        SEND_MAC_HEADER,
-        SEND_IP_HEADER,
-        SEND_UDP_HEADER,
-        SEND_PAYLOAD,
-        SEND_PADDING,
-        SEND_FCS,
-        WAIT
-    } state;
+    typedef enum logic [3:0] {
+        POWER_UP            = 4'b0000,
+        READY               = 4'b0001,
+        PREPARE             = 4'b0010,
+        LENGTHS             = 4'b0100,
+        IP_CHECKSUM         = 4'b1000,
+        SEND_PREAMBLE_SFD   = 4'b0011,
+        SEND_MAC_HEADER     = 4'b0101,
+        SEND_IP_HEADER      = 4'b1001,
+        SEND_UDP_HEADER     = 4'b0110,
+        SEND_PAYLOAD        = 4'b1110,
+        SEND_PADDING        = 4'b1010,
+        SEND_FCS            = 4'b1011,
+        WAIT                = 4'b1111
+    } state_t;
 
+    state_t state;
     // This is used as a general purpose counter. Note that this is signed
     // because it is used to count up and down.
     int i;

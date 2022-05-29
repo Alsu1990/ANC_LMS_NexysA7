@@ -51,6 +51,7 @@ module eth_logger
     // probe data triger
     logic                   debug_trig_q, debug_trig_detect_q;
     logic [PROBE_WIDTH-1:0] trigged_data_q;
+    logic                   trigged_data_valid_q;
     // rising edge triger detect
     always_ff @( posedge clk_i ) begin : trig_detect
         if (!rstn_i) begin
@@ -65,8 +66,14 @@ module eth_logger
     always_ff @( posedge clk_i ) begin : data_fetch
         if (!rstn_i) begin
             trigged_data_q <= '0;
+            trigged_data_valid_q <= 0;
         end else begin
-            trigged_data_q <= (debug_trig_detect_q) ?  debug_probe_i: trigged_data_q; 
+            // ORing debug_probe bits to double check data valid
+            if ((debug_trig_detect_q) && (|debug_probe_i)) begin
+                trigged_data_q <= debug_probe_i; 
+                trigged_data_valid_q <= 1;
+            end else
+                trigged_data_valid_q <= 0;
         end
     end
     ////////////////////////////////////////////////////////////////
@@ -83,7 +90,7 @@ module eth_logger
     // probe data need to be packed in 4 bits nibbles
     // neebles number = PROBE_WIDTH >> log2(4)
     typedef struct packed {
-        logic [3:0] nibble;
+    logic [3:0] nibble;
         } nibble_t;
     nibble_t [(PROBE_WIDTH>>2)-1:0]         nibbles_tx_q;
     logic [(($clog2(PROBE_WIDTH>>2))-1):0]  nibbles_tx_ptr;
@@ -116,7 +123,7 @@ module eth_logger
             nibbles_tx_q <= '0;
             nibbles_tx_ptr <= '1;   // sending MSB first / nibbles swaped
             wr_en <= 0;
-            wr_d <= 0;
+            wr_d <= '0;
             state_q <= IDLE;
             last_nibble <= 0;
         end else begin
@@ -128,9 +135,9 @@ module eth_logger
                     wr_d <= '0;
                     last_nibble <= 0;
                     //check if fifo not in reset state and eth_udp module is ready
-                    if ((debug_trig_detect_q)&&(!wr_rst_busy)&&(rdy)) begin
+                    if ((trigged_data_valid_q)&&(!wr_rst_busy)&&(rdy)) begin
                         // data capture and nibble swap for eth transmition
-                        nibbles_tx_q <= swap_nibbles(debug_probe_i);
+                        nibbles_tx_q <= swap_nibbles(trigged_data_q);
                         state_q <= WRITE;
                     end else begin
                         state_q <= IDLE;
@@ -141,23 +148,23 @@ module eth_logger
                         // all data written
                         wr_en <= 1;
                         wr_d <= nibbles_tx_q[nibbles_tx_ptr];
-                        state_q <= WRITE;
                         if (nibbles_tx_ptr != 0) begin
                             nibbles_tx_ptr <= nibbles_tx_ptr - 1;
                         end else begin
                             last_nibble <= 1;
                         end
+                        state_q <= WRITE;
                     end else begin
                         wr_en <= 0;
                         last_nibble <= 0;
                         state_q <= IDLE;   
                     end
-                    state_q <= (last_nibble) ?  IDLE:WRITE;
                 end
 
                 default: begin
                     nibbles_tx_q <= '0;
                     nibbles_tx_ptr <= '0;
+                    state_q <= IDLE;
                 end 
             endcase
         end
@@ -166,25 +173,25 @@ module eth_logger
     /////////////////////////////////////////////////////////////////
     // IP info
     IIpInfo ip_info();
-    assign ip_info.src_ip   = 32'h55_66_77_88;
+    assign ip_info.src_ip   = 32'ha9_fe_d1_4c;
     assign ip_info.src_mac  = 48'haa_bb_cc_dd_ee_ff;
     assign ip_info.src_port = 16'h1000;
-    assign ip_info.dst_ip   = 32'h11_22_33_44;
-    assign ip_info.dst_mac  = 48'h1a_2b_3c_4d_5e_6f;
-    assign ip_info.dst_port = 16'h1000;
+    assign ip_info.dst_ip   = 32'ha9_fe_d1_4d;          // Autoconfiguration IPv4 Address : 169.254.209.77(Preferred)          
+    assign ip_info.dst_mac  = 48'h38_f3_ab_f4_0f_8e;    // Description : Realtek PCIe GbE Family Controller #2
+    assign ip_info.dst_port = 16'h1000;                 // random
     // Eth Phy control signal interface inst
     IEthPhy  eth();
-    assign eth_ref_clk_o = eth.ref_clk; // Out
-    assign eth_rstn_o    = eth.rstn;    // Out
-    assign eth.tx_clk  = eth_tx_clk_i;  // In
-    assign eth_tx_en_o   = eth.tx_en;   // Out
-    assign eth_tx_d_o     = eth.tx_d;   // Out
+    assign eth_ref_clk_o    = eth.ref_clk; // Out
+    assign eth_rstn_o       = eth.rstn;    // Out
+    assign eth.tx_clk       = eth_tx_clk_i;  // In
+    assign eth_tx_en_o      = eth.tx_en;   // Out
+    assign eth_tx_d_o       = eth.tx_d;   // Out
     // eth_udp_send i nst
     eth_udp_send #(
         .CLK_RATIO(4),          // clk to clk25 ratio
-        .MAX_DATA_BYTES(64),  // 20 for sim. Default 1024  
-        .MIN_DATA_BYTES(32),   // 10 for sim. Default 512
-        .POWER_UP_CYCLES(100),  // 100 for sim. Default 5e6
+        .MAX_DATA_BYTES(1024),  // 20 for sim. Default 1024  
+        .MIN_DATA_BYTES(512),   // 10 for sim. Default 512
+        .POWER_UP_CYCLES(5_000_000),  // 100 for sim. Default 5e6
         .WORD_SIZE_BYTES(1))
     eth_udp_send(
         // Standard

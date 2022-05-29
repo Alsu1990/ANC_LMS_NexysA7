@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+// timeunit 1ns/1ps;
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -30,39 +30,50 @@
 
 module anc_main(
     // system clock 100 mhz
-    input logic sys_clk,
+    input   logic           sys_clk,
     // push buttons
-    input logic [3:0] btn,          //active high
+    input   logic [3:0]     btn,                //active high
     // switches
-    input logic [3:0] sw,
+    input   logic [3:0]     sw,
     // leds 
-    output logic [3:0] led,
+    output  logic [3:0]     led,
     // Pmod JA connector for microphone connection
     // mono channel
     // error mic 
-    output logic ja_1, ja_2, ja_4,  //sel,lrclk,bclk
-    input logic ja_3,               //dout
+    output  logic           ja_1, ja_2, ja_4,   //sel,lrclk,bclk
+    input   logic           ja_3,               //dout
     // Pmod JB connector for microphone connection
     // mono channel
     // ref mic
-    output logic jb_1, jb_2, jb_4,  //sel,lrclk,bclk
-    input logic jb_3,               //dout
+    output  logic           jb_1, jb_2, jb_4,   //sel,lrclk,bclk
+    input   logic           jb_3,               //dout
 
     //pwm analog output
-    output ja_10
+    output  logic           ja_10,
+    // Eth PHY (Transmit part)
+    output  logic           eth_ref_clk,        // 25 mhz reference clock to phy
+    output  logic           eth_rstn,           // resetn to phy
+    input   logic           eth_tx_clk,         // tx_clk from phy (udp_send fsm clock)
+    output  logic           eth_tx_en,          // tx_data_enable to phy
+    output  logic [3:0]     eth_txd             // 4 bit tx data nibble to phy
     );
 
     // assign mic SEL to SW. SW[3] - JA connector, SW[2] - JB connector
     assign {ja_1, jb_1} = sw[3:2];
     //////////////////////////////////////////////////////////////////////////////////
     // system sync power reset
+    logic dcm_locked; // indication if clock gen is locked
+    assign led[0] = dcm_locked; // led indication for clock gen
     // sys_reset outputs
+    logic [0:0] interconnect_aresetn;
+    logic [0:0] peripheral_aresetn;
+
     proc_sys_reset_0 sys_reset (
         .slowest_sync_clk(sys_clk),                     // input wire slowest_sync_clk
         .ext_reset_in(btn[0]),                          // input wire ext_reset_in
         .aux_reset_in(btn[0]),                          // input wire aux_reset_in
-        .mb_debug_sys_rst(),                            // input wire mb_debug_sys_rst
-        .dcm_locked(),                                  // input wire dcm_locked
+        .mb_debug_sys_rst(btn[0]),                      // input wire mb_debug_sys_rst. A
+        .dcm_locked(dcm_locked),                        // input wire dcm_locked
         .mb_reset(),                                    // output wire mb_reset
         .bus_struct_reset(bus_struct_reset),            // output wire [0 : 0] bus_struct_reset
         .peripheral_reset(peripheral_reset),            // output wire [0 : 0] peripheral_reset
@@ -76,14 +87,19 @@ module anc_main(
         .clk100(clk100),            // output clk100   general 100 clk
         .clk25(clk25),              // output clk25  for ethernet rgmii
         // Status and control signals
-        .reset(peripheral_reset),   // input reset
-        .locked(led[0]),            // output locked
+        .reset(1'b0),               // input reset (always enable)
+        .locked(dcm_locked),        // output locked
         // Clock in ports
         .clk_ref(sys_clk)           // input clk_ref
         );      
     //////////////////////////////////////////////////////////////////////////////////
     // microphone data i2s reciever and controller inst
     //////////////////////////////////////////////////////////////////////////////////
+    // *no need to instantinate single wire signals (System verilog assigns them automatically)
+    // only arrays needed to be einstantinated
+    logic [7:0] s_axi_ctrl_awaddr, s_axi_ctrl_araddr;
+    logic [31:0] s_axi_ctrl_wdata, s_axi_ctrl_rdata;
+    logic [1:0] s_axi_ctrl_bresp, s_axi_ctrl_rresp;
     // i2s configuratior inst
     i2s_reciever_config i2s_config(
         .s_axi_ctrl_aclk(clk100),
@@ -108,6 +124,7 @@ module anc_main(
     //////////////////////////////////////////////////////////////////////////////////
     // i2s reciver inst
     logic [31:0] m_axis_aud_tdata;
+    logic [2:0] m_axis_aud_tid;
     i2s_receiver_0 i2s_rx (
         .s_axi_ctrl_aclk(clk100),                 // input wire s_axi_ctrl_aclk
         .s_axi_ctrl_aresetn(peripheral_aresetn),  // input wire s_axi_ctrl_aresetn
@@ -154,6 +171,7 @@ module anc_main(
         .pwm_out(ja_10)
     );
 
+
     // ethernet logger
     eth_logger #(.PROBE_WIDTH(16)) eth_logger(
         .clk_i(clk100),
@@ -161,10 +179,30 @@ module anc_main(
         .debug_probe_i(m_axis_aud_tdata[27:12]),
         .debug_trig_i(m_axis_aud_tvalid),
         .clk25(clk25),
-        .eth_ref_clk_o(eth_ref_clk_o),
-        .eth_rstn_o(eth_rstn_o),
-        .eth_tx_clk_i(eth_tx_clk_i),
-        .eth_tx_en_o(eth_tx_en_o),
-        .eth_tx_d_o(eth_tx_d_o)
+        .eth_ref_clk_o(eth_ref_clk),
+        .eth_rstn_o(/*Open*/), // race condition bug in eth_udp.sv
+        .eth_tx_clk_i(eth_tx_clk),
+        .eth_tx_en_o(eth_tx_en),
+        .eth_tx_d_o(eth_txd)
     );
+    assign eth_rstn = peripheral_aresetn; // connect to reset sequencer. aresetn deasserted when pll locked and 25mhz stable
+
+    // clock divider to slow down led blinking to 1 sec
+    // F(hz)/DIVISOR = Fslowed(hz)
+    localparam int unsigned DIVISOR = 25_000_000;   
+    logic [$bits(DIVISOR)-1:0] clk25_cnt;
+    always_ff @( posedge eth_tx_clk ) begin : clk25in_check
+        if (!peripheral_aresetn) begin
+            clk25_cnt <= '0;
+            led[1] <= 0;
+        end else begin
+            if (clk25_cnt < DIVISOR) begin
+                clk25_cnt <= clk25_cnt + 1'b1;
+            end else begin
+                clk25_cnt <= '0;
+                led[1] <= ~led[1];
+            end
+        end
+    end
+
 endmodule

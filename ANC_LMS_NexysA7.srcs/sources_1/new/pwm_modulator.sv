@@ -10,8 +10,8 @@ module pwm_modulator (
     output logic            pwm_out);
 
     //////////////////////counter/////////////////////////////////////
-    // localparam  PWM_FRAME = 16'd2268;       // 44.1 kHz 100Mhz clock
-    localparam  PWM_FRAME = 16'd100;       // 44.1 kHz 100Mhz clock
+    localparam  PWM_FRAME = 16'd1134;       // 44.1 kHz 100Mhz clock
+    // localparam  PWM_FRAME = 16'd100;       // 44.1 kHz 100Mhz clock
     logic [15:0] pwm_counter;            // PWM counter
     logic [15:0] period_counter_reversed;   // PWM counter bit reversed
 
@@ -22,15 +22,15 @@ module pwm_modulator (
             pwm_counter <= pwm_counter + 1;
         end
     end
-    always_comb begin : bit_reversal_counter
-        period_counter_reversed = {<<{pwm_counter}};
-    end
-    // genvar k;
-    // generate
-    //     for ( k = 0; k < 16; k++ ) begin : bit_reversal_loop
-    //         assign period_counter_reversed[k] = pwm_counter[15-k];
-    //     end
-    // endgenerate
+    // always_comb begin : bit_reversal_counter
+    //     period_counter_reversed = {<<{pwm_counter}};
+    // end
+    genvar k;
+    generate
+        for ( k = 0; k < 16; k++ ) begin : bit_reversal_loop
+            assign period_counter_reversed[k] = pwm_counter[15-k];
+        end
+    endgenerate
 
     //////////////////////AXIS && New samples logic ///////////////////////////////////
     // when timer hits zero, zero_timer flag indicates that system ready for new sample
@@ -69,7 +69,7 @@ module pwm_modulator (
                 // convert 2's complement to unsigned binary offset
                 // relevant 24 bit axis data [27:4]
                 // trunk it to 16 bit axis_aud_tdata [27:12]
-                next_sample <= {!m_axis_aud_tdata[27], m_axis_aud_tdata[26:12]};
+                next_sample <= {~m_axis_aud_tdata[27], m_axis_aud_tdata[26:12]};
                 next_valid <= 1;
             end else next_valid <= 0;
         end

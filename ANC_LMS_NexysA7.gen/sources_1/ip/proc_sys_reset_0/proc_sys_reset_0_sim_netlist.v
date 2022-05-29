@@ -1,14 +1,14 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
-// Date        : Sun Mar 20 20:06:08 2022
+// Date        : Tue May  3 18:46:26 2022
 // Host        : AR-LAP-163 running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
 //               c:/Xilinx/Projects/ANC_LMS_NexysA7/ANC_LMS_NexysA7.gen/sources_1/ip/proc_sys_reset_0/proc_sys_reset_0_sim_netlist.v
 // Design      : proc_sys_reset_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
-// Device      : xc7a100tcsg324-1
+// Device      : xc7a35ticsg324-1L
 // --------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
