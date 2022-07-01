@@ -96,7 +96,7 @@ module anc_main(
     // microphone data i2s reciever and controller inst
     //////////////////////////////////////////////////////////////////////////////////
     // *no need to instantinate single wire signals (System verilog assigns them automatically)
-    // only arrays needed to be einstantinated
+    // only arrays needed to be instantinated
     logic [7:0] s_axi_ctrl_awaddr, s_axi_ctrl_araddr;
     logic [31:0] s_axi_ctrl_wdata, s_axi_ctrl_rdata;
     logic [1:0] s_axi_ctrl_bresp, s_axi_ctrl_rresp;
