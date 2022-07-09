@@ -1,7 +1,0 @@
-ANC_PROJ_BD_i2s_reciever_config_0_0.v,verilog,xil_defaultlib,../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_i2s_reciever_config_0_0/sim/ANC_PROJ_BD_i2s_reciever_config_0_0.v,
-ANC_PROJ_BD_proc_sys_reset_0_0.vhd,vhdl,xil_defaultlib,../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_proc_sys_reset_0_0/sim/ANC_PROJ_BD_proc_sys_reset_0_0.vhd,
-ANC_PROJ_BD_i2s_receiver_0_0.sv,systemverilog,xil_defaultlib,../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_i2s_receiver_0_0/sim/ANC_PROJ_BD_i2s_receiver_0_0.sv,
-ANC_PROJ_BD_pwm_modulator_wrap_0_0.v,verilog,xil_defaultlib,../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_pwm_modulator_wrap_0_0/sim/ANC_PROJ_BD_pwm_modulator_wrap_0_0.v,
-ANC_PROJ_BD_xlconstant_0_0.v,verilog,xil_defaultlib,../../../bd/ANC_PROJ_BD/ip/ANC_PROJ_BD_xlconstant_0_0/sim/ANC_PROJ_BD_xlconstant_0_0.v,
-ANC_PROJ_BD.v,verilog,xil_defaultlib,../../../bd/ANC_PROJ_BD/sim/ANC_PROJ_BD.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

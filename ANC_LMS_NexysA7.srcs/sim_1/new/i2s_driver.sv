@@ -15,10 +15,6 @@ class i2s_transaction;  // i2s transaction class
         // $display("i2s_packet[%d] = %b",this.n,this.i2s_packet[this.n]) ;
         this.n --;
     endfunction
-
-
-
-
 endclass //className
 
 module i2s_driver (

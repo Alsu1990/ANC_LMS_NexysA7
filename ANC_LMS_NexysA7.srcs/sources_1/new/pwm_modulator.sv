@@ -10,22 +10,25 @@ module pwm_modulator (
     output logic            pwm_out);
 
     //////////////////////counter/////////////////////////////////////
-    localparam  PWM_FRAME = 16'd2268;       // 44.1 kHz 100Mhz clock
-    logic [15:0] period_counter;            // PWM counter
+    localparam  PWM_FRAME = 16'd1134;       // 44.1 kHz 100Mhz clock
+    // localparam  PWM_FRAME = 16'd100;       // 44.1 kHz 100Mhz clock
+    logic [15:0] pwm_counter;            // PWM counter
     logic [15:0] period_counter_reversed;   // PWM counter bit reversed
 
     always_ff @( posedge m_axis_aud_aclk ) begin : pwm_period_counter
         if (!m_axis_aud_aresetn) begin
-            period_counter <= 0;
+            pwm_counter <= 0;
         end else begin
-            period_counter <= period_counter + 1;
+            pwm_counter <= pwm_counter + 1;
         end
     end
-
+    // always_comb begin : bit_reversal_counter
+    //     period_counter_reversed = {<<{pwm_counter}};
+    // end
     genvar k;
     generate
         for ( k = 0; k < 16; k++ ) begin : bit_reversal_loop
-            assign period_counter_reversed[k] = period_counter[15-k];
+            assign period_counter_reversed[k] = pwm_counter[15-k];
         end
     endgenerate
 
@@ -35,9 +38,15 @@ module pwm_modulator (
     logic [15:0] timer;
         
     // flag raises one clock (timer == 16'h0001) before timer reaches zero
-    always_ff @( posedge m_axis_aud_aclk ) zero_timer <= (!m_axis_aud_aresetn) ? 0 : (timer == 16'h0001);
+    always_ff @( posedge m_axis_aud_aclk ) begin
+        if ((!m_axis_aud_aresetn) || (zero_timer)) begin
+            timer <= PWM_FRAME;
+        end else begin
+            timer <= timer - 1;
+        end
+    end
 
-    always_ff @( posedge m_axis_aud_aclk ) timer <= ((!m_axis_aud_aresetn) || (zero_timer)) ? PWM_FRAME : timer - 1;
+    always_ff @( posedge m_axis_aud_aclk ) zero_timer <= (!m_axis_aud_aresetn) ? 0 : (timer == 16'h0001);
 
     // when the timer runs out => accept next value
     logic [15:0] sample_out;
@@ -53,29 +62,30 @@ module pwm_modulator (
     always_ff @( posedge m_axis_aud_aclk ) begin : next_sample_logic
         if (!m_axis_aud_aresetn) begin
             next_sample <= 0;
-            next_valid <= 1;
+            next_valid <= 0;
         end else begin
-            // since we working only with one microphone we will use only ZERO CHANNEL
-            if ((m_axis_aud_tid == 1) && (m_axis_aud_tvalid) ) begin
+            // (| m_axis_aud_tdata[27:12]) ORing relevant bits to check if channel not NULL
+            if (( | m_axis_aud_tdata[27:12]) && (m_axis_aud_tvalid) ) begin
                 // convert 2's complement to unsigned binary offset
                 // relevant 24 bit axis data [27:4]
                 // trunk it to 16 bit axis_aud_tdata [27:12]
-                next_sample <= {!m_axis_aud_tdata[27], m_axis_aud_tdata[26:12]};
+                next_sample <= {~m_axis_aud_tdata[27], m_axis_aud_tdata[26:12]};
                 next_valid <= 1;
-            end else if (zero_timer) next_valid <= 0;
+            end else next_valid <= 0;
         end
     end
 
-    logic pwm_out_register;
-    always_ff @( posedge m_axis_aud_aclk ) pwm_out_register <= ( sample_out >= period_counter_reversed ) ? 1'b1 : 1'b0 ;
+    always_ff @( posedge m_axis_aud_aclk ) pwm_out <= ( sample_out >= period_counter_reversed ) ? 1'b1 : 1'b0 ;
+    // logic pwm_out_register;
+    // always_ff @( posedge m_axis_aud_aclk ) pwm_out_register <= ( sample_out >= period_counter_reversed ) ? 1'b1 : 1'b0 ;
  
- OBUFT #(
-    .DRIVE(12),
-    .IOSTANDARD("DEFAULT"),
-    .SLEW("SLOW"))
-    OBUFT_inst (
-        .O(pwm_out),     // Buffer output (connect directly to top-level port)
-        .I(pwm_out_register),     // Buffer input
-        .T(pwm_out_register));      // 3-state enable input
+//  OBUFT #(
+//     .DRIVE(12),
+//     .IOSTANDARD("DEFAULT"),
+//     .SLEW("SLOW"))
+//     OBUFT_inst (
+//         .O(pwm_out),     // Buffer output (connect directly to top-level port)
+//         .I(pwm_out_register),     // Buffer input
+//         .T(pwm_out_register));      // 3-state enable input
     
 endmodule
