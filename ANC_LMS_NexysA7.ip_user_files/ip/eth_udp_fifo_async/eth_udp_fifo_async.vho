@@ -45,10 +45,8 @@
 -- PART OF THIS FILE AT ALL TIMES.
 -- 
 -- DO NOT MODIFY THIS FILE.
-
 -- IP VLNV: xilinx.com:ip:fifo_generator:13.2
--- IP Revision: 6
-
+-- IP Revision: 7
 -- The following code must appear in the VHDL architecture header.
 
 ------------- Begin Cut here for COMPONENT Declaration ------ COMP_TAG
@@ -65,7 +63,7 @@ COMPONENT eth_udp_fifo_async
     empty : OUT STD_LOGIC;
     rd_data_count : OUT STD_LOGIC_VECTOR(11 DOWNTO 0);
     wr_rst_busy : OUT STD_LOGIC;
-    rd_rst_busy : OUT STD_LOGIC
+    rd_rst_busy : OUT STD_LOGIC 
   );
 END COMPONENT;
 -- COMP_TAG_END ------ End COMPONENT Declaration ------------
@@ -94,4 +92,6 @@ your_instance_name : eth_udp_fifo_async
 -- You must compile the wrapper file eth_udp_fifo_async.vhd when simulating
 -- the core, eth_udp_fifo_async. When compiling the wrapper file, be sure to
 -- reference the VHDL simulation library.
+
+
 

@@ -1,2 +1,0 @@
-eth_udp_fifo_async.v,verilog,xil_defaultlib,../../../ip/eth_udp_fifo_async/sim/eth_udp_fifo_async.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

@@ -1,10 +1,10 @@
--- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
--- Tool Version: Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
--- Date        : Tue May  3 18:46:26 2022
--- Host        : AR-LAP-163 running 64-bit major release  (build 9200)
+-- Tool Version: Vivado v.2022.1 (win64) Build 3526262 Mon Apr 18 15:48:16 MDT 2022
+-- Date        : Sat Jul  9 12:12:20 2022
+-- Host        : RYZEN running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               c:/Xilinx/Projects/ANC_LMS_NexysA7/ANC_LMS_NexysA7.gen/sources_1/ip/proc_sys_reset_0/proc_sys_reset_0_sim_netlist.vhdl
+--               d:/Projects/FPGA/ANC_LMS_NexysA7/ANC_LMS_NexysA7.gen/sources_1/ip/proc_sys_reset_0/proc_sys_reset_0_sim_netlist.vhdl
 -- Design      : proc_sys_reset_0
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -30,9 +30,9 @@ entity proc_sys_reset_0_cdc_sync is
 end proc_sys_reset_0_cdc_sync;
 
 architecture STRUCTURE of proc_sys_reset_0_cdc_sync is
-  signal s_level_out_d1_cdc_to : STD_LOGIC;
-  signal s_level_out_d2 : STD_LOGIC;
-  signal s_level_out_d3 : STD_LOGIC;
+  signal \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2\ : STD_LOGIC;
+  signal \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3\ : STD_LOGIC;
+  signal Q : STD_LOGIC;
   signal \^scndry_out\ : STD_LOGIC;
   attribute ASYNC_REG : boolean;
   attribute ASYNC_REG of \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_IN_cdc_to\ : label is std.standard.true;
@@ -64,7 +64,7 @@ begin
       C => slowest_sync_clk,
       CE => '1',
       D => aux_reset_in,
-      Q => s_level_out_d1_cdc_to,
+      Q => Q,
       R => '0'
     );
 \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d2\: unisim.vcomponents.FDRE
@@ -74,8 +74,8 @@ begin
         port map (
       C => slowest_sync_clk,
       CE => '1',
-      D => s_level_out_d1_cdc_to,
-      Q => s_level_out_d2,
+      D => Q,
+      Q => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2\,
       R => '0'
     );
 \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d3\: unisim.vcomponents.FDRE
@@ -85,8 +85,8 @@ begin
         port map (
       C => slowest_sync_clk,
       CE => '1',
-      D => s_level_out_d2,
-      Q => s_level_out_d3,
+      D => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2\,
+      Q => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3\,
       R => '0'
     );
 \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d4\: unisim.vcomponents.FDRE
@@ -96,7 +96,7 @@ begin
         port map (
       C => slowest_sync_clk,
       CE => '1',
-      D => s_level_out_d3,
+      D => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3\,
       Q => \^scndry_out\,
       R => '0'
     );
@@ -134,10 +134,10 @@ entity proc_sys_reset_0_cdc_sync_0 is
 end proc_sys_reset_0_cdc_sync_0;
 
 architecture STRUCTURE of proc_sys_reset_0_cdc_sync_0 is
+  signal \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2\ : STD_LOGIC;
+  signal \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3\ : STD_LOGIC;
+  signal Q : STD_LOGIC;
   signal exr_d1 : STD_LOGIC;
-  signal s_level_out_d1_cdc_to : STD_LOGIC;
-  signal s_level_out_d2 : STD_LOGIC;
-  signal s_level_out_d3 : STD_LOGIC;
   signal \^scndry_out\ : STD_LOGIC;
   attribute ASYNC_REG : boolean;
   attribute ASYNC_REG of \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_IN_cdc_to\ : label is std.standard.true;
@@ -169,7 +169,7 @@ begin
       C => slowest_sync_clk,
       CE => '1',
       D => exr_d1,
-      Q => s_level_out_d1_cdc_to,
+      Q => Q,
       R => '0'
     );
 \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_IN_cdc_to_i_1\: unisim.vcomponents.LUT2
@@ -188,8 +188,8 @@ begin
         port map (
       C => slowest_sync_clk,
       CE => '1',
-      D => s_level_out_d1_cdc_to,
-      Q => s_level_out_d2,
+      D => Q,
+      Q => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2\,
       R => '0'
     );
 \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d3\: unisim.vcomponents.FDRE
@@ -199,8 +199,8 @@ begin
         port map (
       C => slowest_sync_clk,
       CE => '1',
-      D => s_level_out_d2,
-      Q => s_level_out_d3,
+      D => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2\,
+      Q => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3\,
       R => '0'
     );
 \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d4\: unisim.vcomponents.FDRE
@@ -210,7 +210,7 @@ begin
         port map (
       C => slowest_sync_clk,
       CE => '1',
-      D => s_level_out_d3,
+      D => \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3\,
       Q => \^scndry_out\,
       R => '0'
     );

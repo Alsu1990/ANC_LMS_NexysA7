@@ -1,10 +1,10 @@
-// Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+// Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
-// Tool Version: Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
-// Date        : Tue May  3 18:46:26 2022
-// Host        : AR-LAP-163 running 64-bit major release  (build 9200)
+// Tool Version: Vivado v.2022.1 (win64) Build 3526262 Mon Apr 18 15:48:16 MDT 2022
+// Date        : Sat Jul  9 12:12:20 2022
+// Host        : RYZEN running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               c:/Xilinx/Projects/ANC_LMS_NexysA7/ANC_LMS_NexysA7.gen/sources_1/ip/proc_sys_reset_0/proc_sys_reset_0_sim_netlist.v
+//               d:/Projects/FPGA/ANC_LMS_NexysA7/ANC_LMS_NexysA7.gen/sources_1/ip/proc_sys_reset_0/proc_sys_reset_0_sim_netlist.v
 // Design      : proc_sys_reset_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -88,15 +88,15 @@ module proc_sys_reset_0_cdc_sync
   input aux_reset_in;
   input slowest_sync_clk;
 
+  wire \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2 ;
+  wire \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3 ;
+  wire Q;
   wire [0:0]asr_lpf;
   wire aux_reset_in;
   wire lpf_asr;
   wire lpf_asr_reg;
   wire p_1_in;
   wire p_2_in;
-  wire s_level_out_d1_cdc_to;
-  wire s_level_out_d2;
-  wire s_level_out_d3;
   wire scndry_out;
   wire slowest_sync_clk;
 
@@ -110,7 +110,7 @@ module proc_sys_reset_0_cdc_sync
        (.C(slowest_sync_clk),
         .CE(1'b1),
         .D(aux_reset_in),
-        .Q(s_level_out_d1_cdc_to),
+        .Q(Q),
         .R(1'b0));
   (* ASYNC_REG *) 
   (* XILINX_LEGACY_PRIM = "FDR" *) 
@@ -121,8 +121,8 @@ module proc_sys_reset_0_cdc_sync
     \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d2 
        (.C(slowest_sync_clk),
         .CE(1'b1),
-        .D(s_level_out_d1_cdc_to),
-        .Q(s_level_out_d2),
+        .D(Q),
+        .Q(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2 ),
         .R(1'b0));
   (* ASYNC_REG *) 
   (* XILINX_LEGACY_PRIM = "FDR" *) 
@@ -133,8 +133,8 @@ module proc_sys_reset_0_cdc_sync
     \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d3 
        (.C(slowest_sync_clk),
         .CE(1'b1),
-        .D(s_level_out_d2),
-        .Q(s_level_out_d3),
+        .D(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2 ),
+        .Q(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3 ),
         .R(1'b0));
   (* ASYNC_REG *) 
   (* XILINX_LEGACY_PRIM = "FDR" *) 
@@ -145,7 +145,7 @@ module proc_sys_reset_0_cdc_sync
     \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d4 
        (.C(slowest_sync_clk),
         .CE(1'b1),
-        .D(s_level_out_d3),
+        .D(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3 ),
         .Q(scndry_out),
         .R(1'b0));
   LUT5 #(
@@ -180,6 +180,9 @@ module proc_sys_reset_0_cdc_sync_0
   input mb_debug_sys_rst;
   input slowest_sync_clk;
 
+  wire \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2 ;
+  wire \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3 ;
+  wire Q;
   wire exr_d1;
   wire [0:0]exr_lpf;
   wire ext_reset_in;
@@ -188,9 +191,6 @@ module proc_sys_reset_0_cdc_sync_0
   wire mb_debug_sys_rst;
   wire p_1_in4_in;
   wire p_2_in3_in;
-  wire s_level_out_d1_cdc_to;
-  wire s_level_out_d2;
-  wire s_level_out_d3;
   wire scndry_out;
   wire slowest_sync_clk;
 
@@ -204,7 +204,7 @@ module proc_sys_reset_0_cdc_sync_0
        (.C(slowest_sync_clk),
         .CE(1'b1),
         .D(exr_d1),
-        .Q(s_level_out_d1_cdc_to),
+        .Q(Q),
         .R(1'b0));
   LUT2 #(
     .INIT(4'hE)) 
@@ -221,8 +221,8 @@ module proc_sys_reset_0_cdc_sync_0
     \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d2 
        (.C(slowest_sync_clk),
         .CE(1'b1),
-        .D(s_level_out_d1_cdc_to),
-        .Q(s_level_out_d2),
+        .D(Q),
+        .Q(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2 ),
         .R(1'b0));
   (* ASYNC_REG *) 
   (* XILINX_LEGACY_PRIM = "FDR" *) 
@@ -233,8 +233,8 @@ module proc_sys_reset_0_cdc_sync_0
     \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d3 
        (.C(slowest_sync_clk),
         .CE(1'b1),
-        .D(s_level_out_d2),
-        .Q(s_level_out_d3),
+        .D(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d2 ),
+        .Q(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3 ),
         .R(1'b0));
   (* ASYNC_REG *) 
   (* XILINX_LEGACY_PRIM = "FDR" *) 
@@ -245,7 +245,7 @@ module proc_sys_reset_0_cdc_sync_0
     \GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_s_level_out_d4 
        (.C(slowest_sync_clk),
         .CE(1'b1),
-        .D(s_level_out_d3),
+        .D(\GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.s_level_out_d3 ),
         .Q(scndry_out),
         .R(1'b0));
   LUT5 #(
